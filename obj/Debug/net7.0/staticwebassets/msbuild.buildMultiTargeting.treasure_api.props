@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\treasure_api.props" />
+</Project>

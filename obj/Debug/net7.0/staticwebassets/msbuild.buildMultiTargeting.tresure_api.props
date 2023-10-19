@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\tresure_api.props" />
+</Project>

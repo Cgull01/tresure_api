@@ -1,0 +1,29 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace API_tresure.Models
+{
+    public class Card
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Details { get; set; } = string.Empty;
+
+        [Column(TypeName = "jsonb")]
+        public string? Tags { get; set; }
+        public DateTimeOffset? DueDate { get; set; }
+
+        [Required(ErrorMessage = "Creation Date Is Required")]
+        public required DateTimeOffset CreationDate { get; set; }
+        public DateTimeOffset? CompletionDate { get; set; }
+
+        public List<Member> AssignedMembers { get; set; } = new List<Member>();
+
+        [Required]
+        public required int ColumnId { get; set; }
+
+        [ForeignKey("ColumnId")]
+        public Column? Column { get; set; }
+    }
+}
