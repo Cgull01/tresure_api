@@ -21,9 +21,9 @@ namespace API_tresure.Models
         public List<Member> AssignedMembers { get; set; } = new List<Member>();
 
         [Required]
+        [ForeignKey("Column")]
         public required int ColumnId { get; set; }
 
-        [ForeignKey("ColumnId")]
         public Column? Column { get; set; }
     }
 }

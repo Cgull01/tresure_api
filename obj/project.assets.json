@@ -2061,11 +2061,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Programing\\c#\\treasure_api\\tresure_api.csproj",
+      "projectUniqueName": "E:\\Programing\\c#\\tresure_api\\tresure_api.csproj",
       "projectName": "tresure_api",
-      "projectPath": "E:\\Programing\\c#\\treasure_api\\tresure_api.csproj",
+      "projectPath": "E:\\Programing\\c#\\tresure_api\\tresure_api.csproj",
       "packagesPath": "C:\\Users\\Vartotojas\\.nuget\\packages\\",
-      "outputPath": "E:\\Programing\\c#\\treasure_api\\obj\\",
+      "outputPath": "E:\\Programing\\c#\\tresure_api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

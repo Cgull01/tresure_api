@@ -38,14 +38,34 @@ namespace tresure_api.Controllers
             return projects.ToList();
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult> CreateProject()
-        // {
-        //     if(!ModelState.IsValid)
-        //     {
-        //         ModelState.AddModelError("","")
-        //     }
-        // }
+        [HttpPost]
+        public async Task<ActionResult> CreateProject(PostProjectDTO project)
+        {
 
+            var newProject = new Project(){
+                Title = project.title,
+            };
+
+            _projectRepository.CreateProject(newProject);
+
+            return StatusCode(201);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> EditProject(PutProjectDTO project)
+        {
+            Project updatedProject = await _projectRepository.GetProjectById(project.Id);
+
+            if(updatedProject == null)
+            {
+                return NotFound();
+            }
+
+            updatedProject.Title = project.title;
+
+            _projectRepository.UpdateProject(updatedProject);
+
+            return StatusCode(200);
+        }
     }
 }

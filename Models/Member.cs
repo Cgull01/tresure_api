@@ -8,11 +8,14 @@ namespace API_tresure.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required] public required string UserId { get; set; }
-        [Required] public required int ProjectId { get; set; }
-
-        [ForeignKey("ProjectId")] public Project Project { get; set; }
-        [ForeignKey("UserId")] public User User { get; set; }
+        [Required]
+         [ForeignKey("User")]
+        public required string UserId { get; set; }
+        [Required]
+        [ForeignKey("Project")]
+        public required int ProjectId { get; set; }
+        public Project Project { get; set; }
+        public User User { get; set; }
         public List<Role> Roles { get; set; } = new List<Role>();
 
         public List<Card> Cards { get; set; } = new List<Card>();

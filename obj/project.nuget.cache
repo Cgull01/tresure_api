@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Gss60LfJ5MUe7zXQe2Yfl3qjSX4pY0wgKbh68oyFpMri6orsiAFFYl2Ojo70aMQ0L9XFVkm9CJ8ZgDUsZSoZxA==",
+  "dgSpecHash": "+kzZLJk8mX4vw5SRl4+UML8v9BLFjJmjKDJz3QteC1EcOFASeIBLWEO6oH/7L+FIGMSsNFFpDEId98YDCAg2gw==",
   "success": true,
-  "projectFilePath": "E:\\Programing\\c#\\treasure_api\\tresure_api.csproj",
+  "projectFilePath": "E:\\Programing\\c#\\tresure_api\\tresure_api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Vartotojas\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Vartotojas\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.12\\microsoft.aspnetcore.authentication.jwtbearer.7.0.12.nupkg.sha512",
