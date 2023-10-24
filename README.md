@@ -1,4 +1,10 @@
 
+finiished at register page start,
+smith tutorial doesnt have JWT -> use neil's or others for jwt
+login post looks similar like neil's
+next up: finish smith
+
+
 ---
 
 all
@@ -139,6 +145,12 @@ position
 /api/Member                 POST          create    201
 /api/Member/{member_id}     PUT/PATCH     edit      200
 /api/Member/{member_id}     DELETE        remove    404/204
+
+dotnet commands:
+
+dotnet ef migrations add YourMigrationName
+dotnet ef database update
+dotnet watch --no-hot-reload
 
 
 ---
