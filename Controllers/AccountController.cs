@@ -26,7 +26,7 @@ namespace tresure_api.Controllers
             _context = context;
         }
         [HttpPost]
-        public async Task<IActionResult> Login(PostUser login)
+        public async Task<IActionResult> Login(LoginUser login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
 
@@ -48,5 +48,35 @@ namespace tresure_api.Controllers
             return NotFound();
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterUser register)
+        {
+            var user = new User() { UserName = register.Username, Email = register.Email };
+
+            var result = await _userManager.CreateAsync(user, register.Password);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return ValidationProblem();
+            }
+
+            await _userManager.AddToRoleAsync(user, UserRoles.User);
+
+            return StatusCode(201);
+        }
+
+         [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
+        }
+
     }
 }

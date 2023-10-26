@@ -26,12 +26,12 @@ namespace tresure_api.Repository
 
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.AppUsers.ToListAsync();
         }
 
         public async Task<User> GetUserById(int userId)
         {
-            return await _context.Users.FindAsync(userId);
+            return await _context.AppUsers.FindAsync(userId);
         }
 
         public bool Save()

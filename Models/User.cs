@@ -7,10 +7,36 @@ namespace API_tresure.Models
     {
     }
 
-    public record PostUser(
-        [Required] string Username,
-        [Required] [DataType(DataType.EmailAddress)]string Email,
-        [Required] [DataType(DataType.Password)] string Password
-        );
+     public class LoginUser
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
+     public class RegisterUser
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [DataType(DataType.Password)]
+        public string RepeatPassword { get; set; }
+    }
 
 }

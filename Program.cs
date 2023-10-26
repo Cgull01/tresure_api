@@ -24,7 +24,6 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("DATABASE_URL")));
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
-
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 
@@ -48,6 +47,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

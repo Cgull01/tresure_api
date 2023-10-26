@@ -15,8 +15,8 @@ namespace tresure_api.Data
         public DbSet<Column> Columns { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Role> AppRoles { get; set; }
+        public DbSet<User> AppUsers { get; set; }
 
     }
 }
