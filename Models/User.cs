@@ -7,7 +7,7 @@ namespace API_tresure.Models
     {
     }
 
-     public class LoginUser
+     public class PostLoginUser
     {
         [Required]
         public string Username { get; set; }
@@ -19,6 +19,14 @@ namespace API_tresure.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+    }
+
+    public class getLoginUser
+    {
+        public string Email {get;set;}
+        public string Username {get;set;}
+
+        public string Token {get;set;}
     }
      public class RegisterUser
     {

@@ -1,4 +1,6 @@
-﻿using API_tresure.Models;
+﻿using System.Security.Claims;
+using API_tresure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,17 +11,22 @@ namespace tresure_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectRepository _projectRepository;
-        public ProjectController(IProjectRepository projectRepository)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ProjectController(IProjectRepository projectRepository, IHttpContextAccessor httpContextAccessor)
         {
             _projectRepository = projectRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
+
             var project = await _projectRepository.GetProjectById(id);
 
             if (project == null)
@@ -33,6 +40,8 @@ namespace tresure_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
         {
+            //  var email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             var projects = await _projectRepository.GetProjects();
 
             return projects.ToList();

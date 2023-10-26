@@ -1,10 +1,11 @@
 
-finiished at register page start,
-smith tutorial doesnt have JWT -> use neil's or others for jwt
-login post looks similar like neil's
-next up: finish smith
+authentication probably done
+move to protected routes in smith's tutorial
 
 
+TODO:
+decide what to store in JWT -> ID
+var email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 ---
 
 all
