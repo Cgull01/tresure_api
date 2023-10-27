@@ -1,4 +1,5 @@
-﻿using API_tresure.Models;
+﻿using System.Security.Claims;
+using API_tresure.Models;
 using API_tresure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -83,8 +84,10 @@ namespace tresure_api.Controllers
 
         public async Task<ActionResult<getLoginUser>> GetCurrentUser()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(user_id);
 
+            System.Console.WriteLine(user);
             return new getLoginUser
             {
                 Email = user.Email,

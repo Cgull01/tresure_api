@@ -254,7 +254,7 @@ namespace tresure_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6b286f52-43f5-4758-94bf-b89cc5c84d23",
+                            Id = "34a4b1f7-e85a-4596-aaef-35cb49b7d0d1",
                             Name = "User",
                             NormalizedName = "USER"
                         });

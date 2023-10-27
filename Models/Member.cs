@@ -13,7 +13,7 @@ namespace API_tresure.Models
         public required string UserId { get; set; }
         [Required]
         [ForeignKey("Project")]
-        public required int ProjectId { get; set; }
+        public int ProjectId { get; set; }
         public Project Project { get; set; }
         public User User { get; set; }
         public List<Role> Roles { get; set; } = new List<Role>();
@@ -21,5 +21,12 @@ namespace API_tresure.Models
         public List<Card> Cards { get; set; } = new List<Card>();
 
 
+    }
+
+    public class GetMemberDTO
+    {
+        public int Id { get; set; }
+        public required string UserId { get; set; }
+        public List<Role> Roles { get; set; } = new List<Role>();
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System.Security.Claims;
 using API_tresure.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tresure_api.Data;
+using tresure_api.Data.Enum;
 using tresure_api.Data.Interfaces;
 
 namespace tresure_api.Controllers
@@ -16,15 +18,17 @@ namespace tresure_api.Controllers
     {
         private readonly IProjectRepository _projectRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
-        public ProjectController(IProjectRepository projectRepository, IHttpContextAccessor httpContextAccessor)
+        public ProjectController(IProjectRepository projectRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _projectRepository = projectRepository;
             _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(int id)
+        public async Task<ActionResult<GetProjectDTO>> GetProject(int id)
         {
 
             var project = await _projectRepository.GetProjectById(id);
@@ -34,7 +38,9 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            return project;
+            var projectDTO = _mapper.Map<GetProjectDTO>(project);
+
+            return projectDTO;
         }
 
         [HttpGet]
@@ -51,8 +57,12 @@ namespace tresure_api.Controllers
         public async Task<ActionResult> CreateProject(PostProjectDTO project)
         {
 
+            var user_id = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             var newProject = new Project(){
                 Title = project.title,
+                Columns = new List<Column>() { new Column { Title = "To Do", Position = 0 }, new Column { Title = "Doing", Position = 1 }, new Column { Title = "Done", Position = 2 } },
+                Members = new List<Member>(){ new Member{UserId = user_id, Roles = new List<Role>(){ new Role {Name = MemberRole.Admin}}}}
             };
 
             _projectRepository.CreateProject(newProject);

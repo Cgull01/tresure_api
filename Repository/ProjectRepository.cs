@@ -30,6 +30,7 @@ namespace tresure_api.Repository
         public async Task<Project> GetProjectById(int projectId)
         {
             return await _context.Projects.Include(p=>p.Columns).ThenInclude(c => c.Cards).Include(p => p.Members).FirstOrDefaultAsync(p => p.Id == projectId);
+            // return await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
         }
 
         public async Task<ICollection<Column>> GetProjectColumns(int projectId)

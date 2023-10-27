@@ -110,3 +110,5 @@ E:\Programing\c#\tresure_api\obj\Debug\net7.0\refint\tresure_api.dll
 E:\Programing\c#\tresure_api\obj\Debug\net7.0\tresure_api.pdb
 E:\Programing\c#\tresure_api\obj\Debug\net7.0\tresure_api.genruntimeconfig.cache
 E:\Programing\c#\tresure_api\obj\Debug\net7.0\ref\tresure_api.dll
+E:\Programing\c#\tresure_api\bin\Debug\net7.0\AutoMapper.dll
+E:\Programing\c#\tresure_api\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

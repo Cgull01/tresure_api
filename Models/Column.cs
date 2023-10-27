@@ -16,7 +16,15 @@ namespace API_tresure.Models
         [Required(ErrorMessage = "Project Id Is Required")]
 
         [ForeignKey("Project")]
-        public required int ProjectId { get; set; }
-        public required Project Project { get; set; }
+        public int ProjectId { get; set; }
+        public Project Project { get; set; }
+    }
+
+     public class GetColumnDTO
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public List<Card> Cards { get; set; } = new List<Card>();
+        public required int Position { get; set; }
     }
 }

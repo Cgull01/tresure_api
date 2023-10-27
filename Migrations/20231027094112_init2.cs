@@ -7,14 +7,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace tresure_api.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class init2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Users");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -246,7 +243,7 @@ namespace tresure_api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "AppRoles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -256,9 +253,9 @@ namespace tresure_api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_AppRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Roles_Members_MemberId",
+                        name: "FK_AppRoles_Members_MemberId",
                         column: x => x.MemberId,
                         principalTable: "Members",
                         principalColumn: "Id");
@@ -287,6 +284,16 @@ namespace tresure_api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "34a4b1f7-e85a-4596-aaef-35cb49b7d0d1", null, "User", "USER" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppRoles_MemberId",
+                table: "AppRoles",
+                column: "MemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -349,16 +356,14 @@ namespace tresure_api.Migrations
                 name: "IX_Members_UserId",
                 table: "Members",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Roles_MemberId",
-                table: "Roles",
-                column: "MemberId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppRoles");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -378,9 +383,6 @@ namespace tresure_api.Migrations
                 name: "CardMember");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -397,21 +399,6 @@ namespace tresure_api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Projects");
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
         }
     }
 }

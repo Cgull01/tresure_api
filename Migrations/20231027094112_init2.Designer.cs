@@ -12,8 +12,8 @@ using tresure_api.Data;
 namespace tresure_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231023103634_identity")]
-    partial class identity
+    [Migration("20231027094112_init2")]
+    partial class init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,7 +147,7 @@ namespace tresure_api.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("AppRoles");
                 });
 
             modelBuilder.Entity("API_tresure.Models.User", b =>
@@ -253,6 +253,14 @@ namespace tresure_api.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "34a4b1f7-e85a-4596-aaef-35cb49b7d0d1",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

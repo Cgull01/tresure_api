@@ -12,6 +12,19 @@ namespace API_tresure.Models
         public List<Member> Members { get; set; } = new List<Member>();
     }
 
-    public record PostProjectDTO(string title);
-    public record PutProjectDTO(int Id, string title);
+    public class PostProjectDTO
+    {
+        public string title { get; set; }
+    };
+    public class PutProjectDTO
+    {
+        public int Id { get; set; }
+        public string title { get; set; }
+    };
+
+    public class GetProjectDTO{
+         public string Title { get; set; } = string.Empty;
+        public List<GetColumnDTO> Columns { get; set; } = new List<GetColumnDTO>();
+        public List<GetMemberDTO> Members { get; set; } = new List<GetMemberDTO>();
+    }
 }

@@ -1,6 +1,7 @@
 using System.Text;
 using API_tresure.Models;
 using API_tresure.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -86,6 +87,7 @@ builder.Services.AddSwaggerGen(config =>
     });
 });
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 

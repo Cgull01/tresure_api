@@ -2,10 +2,12 @@
 authentication probably done
 move to protected routes in smith's tutorial
 
-
-TODO:
 decide what to store in JWT -> ID
 var email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+TODO:
+add DTOs
+add other Controllers
 ---
 
 all
