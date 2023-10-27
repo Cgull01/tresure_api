@@ -5,6 +5,10 @@ move to protected routes in smith's tutorial
 decide what to store in JWT -> ID
 var email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+projectController is *perfect* with UserAccessService
+next:
+other controllers and dtos
+
 TODO:
 add DTOs
 add other Controllers

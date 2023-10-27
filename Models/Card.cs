@@ -26,4 +26,15 @@ namespace API_tresure.Models
 
         public Column? Column { get; set; }
     }
+
+    public class GetCardDTO{
+        public int Id{get;set;}
+        public int Title{get;set;}
+        public int Details{get;set;}
+        public string Tags{get;set;}
+        public DateTimeOffset DueDate{get;set;}
+        public DateTimeOffset CreationDate{get;set;}
+        public DateTimeOffset CompletionDate{get;set;}
+        public List<GetMemberDTO> AssignedMembers{get;set;}
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using API_tresure.Models;
+using API_tresure.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,21 +20,27 @@ namespace tresure_api.Controllers
         private readonly IProjectRepository _projectRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly UserAccessService _userAccessService;
 
-        public ProjectController(IProjectRepository projectRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public ProjectController(IProjectRepository projectRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService)
         {
             _projectRepository = projectRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+            _userAccessService = userAccessService;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GetProjectDTO>> GetProject(int id)
         {
-
             var project = await _projectRepository.GetProjectById(id);
 
             if (project == null)
+            {
+                return NotFound();
+            }
+
+            if (!_userAccessService.IsOwner(project))
             {
                 return NotFound();
             }
@@ -44,25 +51,29 @@ namespace tresure_api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<GetProjectsDTO>>> GetProjects()
         {
-            //  var email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var projects = await _projectRepository.GetProjects();
+            var userProjects = projects.Where(p => p.Members.Any(m => m.UserId == userId));
 
-            return projects.ToList();
+            var projectsDTO = _mapper.Map<List<GetProjectsDTO>>(userProjects);
+
+            return projectsDTO;
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateProject(PostProjectDTO project)
+        public async Task<ActionResult> CreateProject(CreateProjectDTO project)
         {
 
             var user_id = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var newProject = new Project(){
-                Title = project.title,
+            var newProject = new Project()
+            {
+                Title = project.Title,
                 Columns = new List<Column>() { new Column { Title = "To Do", Position = 0 }, new Column { Title = "Doing", Position = 1 }, new Column { Title = "Done", Position = 2 } },
-                Members = new List<Member>(){ new Member{UserId = user_id, Roles = new List<Role>(){ new Role {Name = MemberRole.Admin}}}}
+                Members = new List<Member>() { new Member { UserId = user_id, Roles = new List<Role>() { new Role { Name = MemberRole.Admin } } } }
             };
 
             _projectRepository.CreateProject(newProject);
@@ -70,21 +81,44 @@ namespace tresure_api.Controllers
             return StatusCode(201);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> EditProject(PutProjectDTO project)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> EditProject(EditProjectDTO project)
         {
             Project updatedProject = await _projectRepository.GetProjectById(project.Id);
 
-            if(updatedProject == null)
+            if (updatedProject == null)
             {
                 return NotFound();
             }
 
-            updatedProject.Title = project.title;
+            if (!_userAccessService.IsOwner(updatedProject))
+            {
+                return NotFound();
+            }
+
+            updatedProject.Title = project.Title;
 
             _projectRepository.UpdateProject(updatedProject);
 
             return StatusCode(200);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            var project = await _projectRepository.GetProjectById(id);
+
+            if(project == null)
+            return NotFound();
+
+            if (!_userAccessService.IsOwner(project))
+            {
+                return NotFound();
+            }
+
+            _projectRepository.DeleteProject(project);
+            return NoContent();
+        }
+
     }
 }

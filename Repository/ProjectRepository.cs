@@ -29,10 +29,14 @@ namespace tresure_api.Repository
 
         public async Task<Project> GetProjectById(int projectId)
         {
-            return await _context.Projects.Include(p=>p.Columns).ThenInclude(c => c.Cards).Include(p => p.Members).FirstOrDefaultAsync(p => p.Id == projectId);
+            return await _context.Projects
+            .Include(p => p.Columns).ThenInclude(c => c.Cards).ThenInclude(c => c.AssignedMembers)
+            .Include(p => p.Members).ThenInclude(m => m.Roles)
+            .FirstOrDefaultAsync(p => p.Id == projectId);
             // return await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
         }
 
+        //TODO remove if unused
         public async Task<ICollection<Column>> GetProjectColumns(int projectId)
         {
             var project = await GetProjectById(projectId);
@@ -40,6 +44,7 @@ namespace tresure_api.Repository
             return project.Columns.ToList();
         }
 
+        //TODO remove if unused
         public async Task<ICollection<Member>> GetProjectMembers(int projectId)
         {
             var project = await GetProjectById(projectId);
@@ -49,7 +54,7 @@ namespace tresure_api.Repository
 
         public async Task<IEnumerable<Project>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+            return await _context.Projects.Include(p=>p.Members).ToListAsync();
         }
 
         public bool Save()

@@ -9,7 +9,7 @@ namespace API_tresure.Models
         [Key]
         public int Id { get; set; }
         [Required]
-         [ForeignKey("User")]
+        [ForeignKey("User")]
         public required string UserId { get; set; }
         [Required]
         [ForeignKey("Project")]
@@ -26,7 +26,7 @@ namespace API_tresure.Models
     public class GetMemberDTO
     {
         public int Id { get; set; }
-        public required string UserId { get; set; }
-        public List<Role> Roles { get; set; } = new List<Role>();
+        public string UserId { get; set; }
+        public List<Role> Roles { get; set; }
     }
 }

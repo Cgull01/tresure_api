@@ -27,6 +27,7 @@ builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DATABASE_URL")));
 
+builder.Services.AddScoped<UserAccessService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors();

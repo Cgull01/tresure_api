@@ -20,11 +20,19 @@ namespace API_tresure.Models
         public Project Project { get; set; }
     }
 
-     public class GetColumnDTO
+    //  public class GetColumnDTO
+    // {
+    //     public int Id { get; set; }
+    //     public string Title { get; set; } = string.Empty;
+    //     public List<Card> Cards { get; set; } = new List<Card>();
+    //     public required int Position { get; set; }
+    // }
+
+    public class GetColumnDTO
     {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public List<Card> Cards { get; set; } = new List<Card>();
-        public required int Position { get; set; }
+        public int Id {get;set;}
+        public string Title {get;set;}
+        public List<GetCardDTO> Cards {get;set;}
+        public int Position {get;set;}
     }
 }

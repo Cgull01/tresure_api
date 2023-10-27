@@ -8,23 +8,42 @@ namespace API_tresure.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Project Title Is Required")]
         public string Title { get; set; } = string.Empty;
-        public List<Column> Columns { get; set; } = new List<Column>();
-        public List<Member> Members { get; set; } = new List<Member>();
+        public List<Column> Columns { get; set; }
+        public List<Member> Members { get; set; }
     }
 
-    public class PostProjectDTO
+    public class CreateProjectDTO
     {
-        public string title { get; set; }
+        public string Title {get;set;}
     };
-    public class PutProjectDTO
+    public class EditProjectDTO
     {
-        public int Id { get; set; }
-        public string title { get; set; }
+        public int Id {get;set;}
+        public string Title {get;set;}
     };
 
-    public class GetProjectDTO{
-         public string Title { get; set; } = string.Empty;
-        public List<GetColumnDTO> Columns { get; set; } = new List<GetColumnDTO>();
-        public List<GetMemberDTO> Members { get; set; } = new List<GetMemberDTO>();
+    public class GetProjectDTO
+    {
+        public int Id {get;set;}
+        public string Title {get;set;}
+        public List<GetColumnDTO> Columns {get;set;}
+        public List<GetMemberDTO> Members {get;set;}
     }
+    public class GetProjectsDTO
+    {
+        public int Id {get;set;}
+        public string Title {get;set;}
+    }
+    // public class PutProjectDTO
+    // {
+    //     public int Id { get; set; }
+    //     public string title { get; set; }
+    // };
+
+    // public class GetProjectDTO{
+    //     public int Id { get; set; }
+    //     public string Title { get; set; } = string.Empty;
+    //     public List<GetColumnDTO> Columns { get; set; } = new List<GetColumnDTO>();
+    //     public List<GetMemberDTO> Members { get; set; } = new List<GetMemberDTO>();
+    // }
 }
