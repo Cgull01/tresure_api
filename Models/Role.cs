@@ -10,4 +10,9 @@ namespace API_tresure.Models
         public int Id { get; set; }
         [Required] public MemberRole Name { get; set; }
     }
+
+    public class PostRoleDTO
+    {
+        int Id {get;set;}
+    }
 }

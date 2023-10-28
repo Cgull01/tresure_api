@@ -51,20 +51,20 @@ namespace tresure_api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetProjectsDTO>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<GetProjectDTO>>> GetProjects()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var projects = await _projectRepository.GetProjects();
             var userProjects = projects.Where(p => p.Members.Any(m => m.UserId == userId));
 
-            var projectsDTO = _mapper.Map<List<GetProjectsDTO>>(userProjects);
+            var projectsDTO = _mapper.Map<List<GetProjectDTO>>(userProjects);
 
             return projectsDTO;
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateProject(CreateProjectDTO project)
+        public async Task<ActionResult> CreateProject(PostProjectDTO project)
         {
 
             var user_id = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

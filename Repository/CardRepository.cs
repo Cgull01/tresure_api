@@ -28,12 +28,21 @@ namespace tresure_api.Repository
 
         public async Task<Card> GetCardById(int cardId)
         {
-            return await _context.Cards.Include(c=>c.AssignedMembers).FirstOrDefaultAsync(c => c.Id == cardId);
+            return await _context.Cards.Include(c=>c.AssignedMembers)
+                .Include(c=>c.Column)
+                    .ThenInclude(c => c.Project)
+                    .ThenInclude(p => p.Members)
+                    .ThenInclude(m => m.Roles)
+                .FirstOrDefaultAsync(c => c.Id == cardId);
         }
 
         public async Task<ICollection<Card>> GetCards()
         {
-            return await _context.Cards.Include(c=>c.AssignedMembers).ToListAsync();
+            return await _context.Cards.Include(c=>c.AssignedMembers)
+                    .Include(c => c.Column)
+                    .ThenInclude(c => c.Project)
+                    .ThenInclude(p => p.Members)
+                    .ThenInclude(m => m.Roles).ToListAsync();
         }
 
         public bool Save()

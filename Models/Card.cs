@@ -29,12 +29,34 @@ namespace API_tresure.Models
 
     public class GetCardDTO{
         public int Id{get;set;}
-        public int Title{get;set;}
-        public int Details{get;set;}
+        public string Title{get;set;}
+        public string Details{get;set;}
         public string Tags{get;set;}
         public DateTimeOffset DueDate{get;set;}
         public DateTimeOffset CreationDate{get;set;}
         public DateTimeOffset CompletionDate{get;set;}
         public List<GetMemberDTO> AssignedMembers{get;set;}
+    }
+
+    public class PostCardDTO{
+        public string Title{get;set;}
+        public string Details{get;set;}
+        public string Tags{get;set;}
+        public DateTimeOffset DueDate{get;set;}
+        public DateTimeOffset CreationDate{get;set;}
+        public DateTimeOffset CompletionDate{get;set;}
+        public List<PostMemberDTO> AssignedMembers{get;set;}
+        public int ColumnId {get;set;}
+    }
+    public class EditCardDTO{
+        public int Id {get;set;}
+        public string Title{get;set;}
+        public string Details{get;set;}
+        public string Tags{get;set;}
+        public DateTimeOffset DueDate{get;set;}
+        public DateTimeOffset CreationDate{get;set;}
+        public DateTimeOffset CompletionDate{get;set;}
+        public List<PostMemberDTO> AssignedMembers{get;set;}
+        public int ColumnId {get;set;}
     }
 }

@@ -21,6 +21,7 @@ namespace API_tresure.Services
         public bool IsOwner(Project project)
         {
             var userId = GetUserId();
+
             return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Name == MemberRole.Admin));
         }
     }

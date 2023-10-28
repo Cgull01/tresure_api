@@ -29,4 +29,8 @@ namespace API_tresure.Models
         public string UserId { get; set; }
         public List<Role> Roles { get; set; }
     }
+    public class PostMemberDTO
+    {
+        public int Id { get; set; }
+    }
 }

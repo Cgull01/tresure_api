@@ -8,14 +8,18 @@ namespace tresure_api.Data
         public AutoMapperProfile(){
             CreateMap<Project, GetProjectDTO>();
             CreateMap<Project, GetProjectsDTO>();
-            CreateMap<Project, CreateProjectDTO>();
+            CreateMap<Project, EditProjectDTO>();
+            CreateMap<Project, PostProjectDTO>();
 
 
             CreateMap<Column, GetColumnDTO>();
-            CreateMap<Column, CreateProjectDTO>();
+            CreateMap<Column, PostCardDTO>();
             CreateMap<Member, GetMemberDTO>();
+            CreateMap<PostMemberDTO, Member>();
 
             CreateMap<Card, GetCardDTO>();
+            CreateMap<Card, PostCardDTO>();
+            CreateMap<PostCardDTO, Card>();
         }
     }
 }

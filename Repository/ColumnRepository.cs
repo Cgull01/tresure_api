@@ -28,7 +28,11 @@ namespace tresure_api.Repository
 
         public async Task<Column> GetColumnById(int columnId)
         {
-            return await _context.Columns.Include(c=> c.Cards).FirstOrDefaultAsync(c => c.Id == columnId);
+            return await _context.Columns
+            .Include(c => c.Project)
+            .ThenInclude(p => p.Members)
+                .ThenInclude(m => m.Roles)
+            .Include(c=> c.Cards).FirstOrDefaultAsync(c => c.Id == columnId);
         }
 
         public async Task<ICollection<Column>> GetColumns()

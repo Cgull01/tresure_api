@@ -12,11 +12,11 @@ namespace API_tresure.Models
         public List<Member> Members { get; set; }
     }
 
-    public class CreateProjectDTO
+    public class PostProjectDTO
     {
         public string Title {get;set;}
     };
-    public class EditProjectDTO
+    public class GetProjectsDTO
     {
         public int Id {get;set;}
         public string Title {get;set;}
@@ -29,21 +29,9 @@ namespace API_tresure.Models
         public List<GetColumnDTO> Columns {get;set;}
         public List<GetMemberDTO> Members {get;set;}
     }
-    public class GetProjectsDTO
+    public class EditProjectDTO
     {
         public int Id {get;set;}
         public string Title {get;set;}
     }
-    // public class PutProjectDTO
-    // {
-    //     public int Id { get; set; }
-    //     public string title { get; set; }
-    // };
-
-    // public class GetProjectDTO{
-    //     public int Id { get; set; }
-    //     public string Title { get; set; } = string.Empty;
-    //     public List<GetColumnDTO> Columns { get; set; } = new List<GetColumnDTO>();
-    //     public List<GetMemberDTO> Members { get; set; } = new List<GetMemberDTO>();
-    // }
 }
