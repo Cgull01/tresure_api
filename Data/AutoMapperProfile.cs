@@ -14,12 +14,15 @@ namespace tresure_api.Data
 
             CreateMap<Column, GetColumnDTO>();
             CreateMap<Column, PostCardDTO>();
+
             CreateMap<Member, GetMemberDTO>();
+            CreateMap<Member, PostMemberDTO>();
             CreateMap<PostMemberDTO, Member>();
 
             CreateMap<Card, GetCardDTO>();
             CreateMap<Card, PostCardDTO>();
             CreateMap<PostCardDTO, Card>();
+            CreateMap<EditCardDTO, Card>();
         }
     }
 }

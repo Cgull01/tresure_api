@@ -35,7 +35,7 @@ namespace API_tresure.Models
         public DateTimeOffset DueDate{get;set;}
         public DateTimeOffset CreationDate{get;set;}
         public DateTimeOffset CompletionDate{get;set;}
-        public List<GetMemberDTO> AssignedMembers{get;set;}
+        public List<PostMemberDTO> AssignedMembers{get;set;}
     }
 
     public class PostCardDTO{

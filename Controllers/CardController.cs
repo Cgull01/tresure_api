@@ -21,17 +21,19 @@ namespace tresure_api.Controllers
     {
         private readonly ICardRepository _cardRepository;
         private readonly IColumnRepository _columnRepository;
+        private readonly IMemberRepository _memberRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
 
-        public CardController(ICardRepository cardRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService, IColumnRepository columnRepository)
+        public CardController(ICardRepository cardRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService, IColumnRepository columnRepository, IMemberRepository memberRepository)
         {
             _cardRepository = cardRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _userAccessService = userAccessService;
             _columnRepository = columnRepository;
+            _memberRepository = memberRepository;
         }
 
         [HttpGet("{id}")]
@@ -44,7 +46,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(card.Column.Project))
+            if (!_userAccessService.isMember(card.Column.Project))
             {
                 return NotFound();
             }
@@ -80,14 +82,27 @@ namespace tresure_api.Controllers
             }
 
             // Check if the user is authorized
-            if (!_userAccessService.IsOwner(column.Project))
+            if (!_userAccessService.isTaskMaster(column.Project))
             {
                 return Unauthorized();
             }
 
+            var assignedMembers = new List<Member>();
+
+            // check if all assigned members exist AND belong to the project
+            foreach (PostMemberDTO member in card.AssignedMembers)
+            {
+                var dbMember = await _memberRepository.GetMemberById(member.Id);
+                if (dbMember == null || !column.Project.Members.Any(m => m.Id == member.Id))
+                {
+                    return UnprocessableEntity("One or more specified members do not exist.");
+                }
+                assignedMembers.Add(dbMember);
+            }
+
             // If the user is authorized, map the DTO to a Card and create it
             var newCard = _mapper.Map<Card>(card);
-            newCard.Column = column;
+            newCard.AssignedMembers = assignedMembers; // directly add the fetched members
 
             _cardRepository.CreateCard(newCard);
 
@@ -104,12 +119,26 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(updatedCard.Column.Project))
+            if (!_userAccessService.isTaskMaster(updatedCard.Column.Project))
             {
                 return NotFound();
             }
 
-            updatedCard = _mapper.Map<Card>(card);
+            _mapper.Map(card, updatedCard);
+
+            // Clear the existing assigned members
+            updatedCard.AssignedMembers.Clear();
+
+            // Add the new assigned members
+            foreach (PostMemberDTO member in card.AssignedMembers)
+            {
+                var dbMember = await _memberRepository.GetMemberById(member.Id);
+                if (dbMember == null || !updatedCard.Column.Project.Members.Any(m => m.Id == member.Id))
+                {
+                    return UnprocessableEntity("One or more specified members do not exist.");
+                }
+                updatedCard.AssignedMembers.Add(dbMember);
+            }
 
             _cardRepository.UpdateCard(updatedCard);
 
@@ -124,7 +153,7 @@ namespace tresure_api.Controllers
             if (card == null)
                 return NotFound();
 
-            if (!_userAccessService.IsOwner(card.Column.Project))
+            if (!_userAccessService.isTaskMaster(card.Column.Project))
             {
                 return NotFound();
             }

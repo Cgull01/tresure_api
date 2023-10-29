@@ -19,8 +19,6 @@ namespace API_tresure.Models
         public List<Role> Roles { get; set; } = new List<Role>();
 
         public List<Card> Cards { get; set; } = new List<Card>();
-
-
     }
 
     public class GetMemberDTO

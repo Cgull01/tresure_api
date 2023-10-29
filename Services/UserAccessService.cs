@@ -24,5 +24,17 @@ namespace API_tresure.Services
 
             return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Name == MemberRole.Admin));
         }
+        public bool isMember(Project project)
+        {
+            var userId = GetUserId();
+
+            return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Name == MemberRole.Member || r.Name == MemberRole.Admin || r.Name == MemberRole.TaskMaster));
+        }
+        public bool isTaskMaster(Project project)
+        {
+            var userId = GetUserId();
+
+            return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Name == MemberRole.Admin || r.Name == MemberRole.TaskMaster));
+        }
     }
 }

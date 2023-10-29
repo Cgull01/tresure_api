@@ -26,6 +26,7 @@ namespace tresure_api.Repository
             return Save();
         }
 
+        // If I don't fetch whole column the ownership check fails
         public async Task<Card> GetCardById(int cardId)
         {
             return await _context.Cards.Include(c=>c.AssignedMembers)

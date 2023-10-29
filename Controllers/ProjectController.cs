@@ -40,7 +40,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(project))
+            if (!_userAccessService.isMember(project))
             {
                 return NotFound();
             }
@@ -51,14 +51,14 @@ namespace tresure_api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetProjectDTO>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<GetProjectsDTO>>> GetProjects()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var projects = await _projectRepository.GetProjects();
             var userProjects = projects.Where(p => p.Members.Any(m => m.UserId == userId));
 
-            var projectsDTO = _mapper.Map<List<GetProjectDTO>>(userProjects);
+            var projectsDTO = _mapper.Map<List<GetProjectsDTO>>(userProjects);
 
             return projectsDTO;
         }

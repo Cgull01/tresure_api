@@ -10,24 +10,12 @@ next:
 other controllers and dtos
 
 TODO:
->Fix CardController: cant specify member with id because that member already exists in DB, have to fetch the members and add them to the assignedmembers
-{
-  "title": "third",
-  "details": "with member",
-  "tags": "[]",
-  "dueDate": "2023-10-28T15:36:47.269Z",
-  "creationDate": "2023-10-28T15:36:47.269Z",
-  "completionDate": "2023-10-28T15:36:47.269Z",
-  "assignedMembers": [
-    {
-      "id": 3
-    }
-  ],
-  "columnId": 8
-}
-Add IsMember next to IsAdmin function to check if member can see projects/cards/column but only admin can crud them
-add DTOs
-add other Controllers
+add member controller
+recheck what data i actually need from jsons
+
+add column controller
+
+connect to frontend
 ---
 
 all
