@@ -1,21 +1,22 @@
 
-authentication probably done
-move to protected routes in smith's tutorial
-
-decide what to store in JWT -> ID
-var email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-projectController is *perfect* with UserAccessService
-next:
-other controllers and dtos
 
 TODO:
+separate AppRole enum table https://stackoverflow.com/questions/50375357/how-to-create-a-table-corresponding-to-enum-in-ef-core-code-first
+completion approval date V
 add member controller
 recheck what data i actually need from jsons
-
 add column controller
 
 connect to frontend
+
+
+
+dotnet commands:
+
+dotnet ef migrations add YourMigrationName
+dotnet ef database update
+dotnet watch --no-hot-reload
+
 ---
 
 all
@@ -156,12 +157,6 @@ position
 /api/Member                 POST          create    201
 /api/Member/{member_id}     PUT/PATCH     edit      200
 /api/Member/{member_id}     DELETE        remove    404/204
-
-dotnet commands:
-
-dotnet ef migrations add YourMigrationName
-dotnet ef database update
-dotnet watch --no-hot-reload
 
 
 ---

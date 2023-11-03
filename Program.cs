@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using API_tresure.Models;
 using API_tresure.Services;
 using AutoMapper;
@@ -23,6 +24,7 @@ builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IColumnRepository, ColumnRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DATABASE_URL")));

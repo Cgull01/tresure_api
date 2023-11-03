@@ -2,12 +2,10 @@
 
 namespace API_tresure.Models
 {
-    public class Project /*: IUserOwnedResource*/
+    public class Project
     {
-        [Key]
-        public int Id { get; set; }
-        [Required(ErrorMessage = "Project Title Is Required")]
-        public string Title { get; set; } = string.Empty;
+        [Key] public int Id { get; set; }
+        [Required(ErrorMessage = "Project Title Is Required")] public string Title { get; set; } = string.Empty;
         public List<Column> Columns { get; set; }
         public List<Member> Members { get; set; }
     }

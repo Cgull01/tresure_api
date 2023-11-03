@@ -4,10 +4,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace tresure_api.Migrations
 {
     /// <inheritdoc />
-    public partial class init2 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -229,6 +231,7 @@ namespace tresure_api.Migrations
                     DueDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CompletionDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    ApprovalDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     ColumnId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -286,9 +289,19 @@ namespace tresure_api.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AppRoles",
+                columns: new[] { "Id", "MemberId", "Name" },
+                values: new object[,]
+                {
+                    { 1, null, 0 },
+                    { 2, null, 2 },
+                    { 3, null, 1 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "34a4b1f7-e85a-4596-aaef-35cb49b7d0d1", null, "User", "USER" });
+                values: new object[] { "6b87a6a3-2b05-4a57-ba8b-cbde97daa93b", null, "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppRoles_MemberId",

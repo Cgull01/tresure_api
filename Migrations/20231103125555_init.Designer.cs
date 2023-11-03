@@ -12,8 +12,8 @@ using tresure_api.Data;
 namespace tresure_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231027094112_init2")]
-    partial class init2
+    [Migration("20231103125555_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace tresure_api.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset?>("ApprovalDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ColumnId")
                         .HasColumnType("integer");
@@ -148,6 +151,23 @@ namespace tresure_api.Migrations
                     b.HasIndex("MemberId");
 
                     b.ToTable("AppRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = 1
+                        });
                 });
 
             modelBuilder.Entity("API_tresure.Models.User", b =>
@@ -257,7 +277,7 @@ namespace tresure_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "34a4b1f7-e85a-4596-aaef-35cb49b7d0d1",
+                            Id = "6b87a6a3-2b05-4a57-ba8b-cbde97daa93b",
                             Name = "User",
                             NormalizedName = "USER"
                         });

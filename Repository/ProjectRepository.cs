@@ -31,9 +31,8 @@ namespace tresure_api.Repository
         {
             return await _context.Projects
             .Include(p => p.Columns).ThenInclude(c => c.Cards).ThenInclude(c => c.AssignedMembers)
-            .Include(p => p.Members).ThenInclude(m => m.Roles)
+            .Include(p => p.Members).ThenInclude(m => m.Roles).ThenInclude(r => r.Role)
             .FirstOrDefaultAsync(p => p.Id == projectId);
-            // return await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
         }
 
         //TODO remove if unused

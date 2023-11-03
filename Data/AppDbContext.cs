@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System.Text;
+using tresure_api.Data.Enum;
 namespace tresure_api.Data
 {
     public class AppDbContext : IdentityDbContext<User>
@@ -26,6 +27,11 @@ namespace tresure_api.Data
 
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole{Name = "User", NormalizedName = "USER"}
+            );
+            builder.Entity<Role>().HasData(
+                new Role{Id = 1, Name = MemberRoles.Admin},
+                new Role{Id = 2, Name = MemberRoles.Member},
+                new Role{Id = 3, Name = MemberRoles.TaskMaster}
             );
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace tresure_api.Data.Enum
 {
-    public enum MemberRole
+    public enum MemberRoles
     {
         Admin,
         Member,

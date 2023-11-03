@@ -21,13 +21,15 @@ namespace tresure_api.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
+        private readonly IRoleRepository _roleRepository;
 
-        public ProjectController(IProjectRepository projectRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService)
+        public ProjectController(IProjectRepository projectRepository, IRoleRepository roleRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService)
         {
             _projectRepository = projectRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _userAccessService = userAccessService;
+            _roleRepository = roleRepository;
         }
 
         [HttpGet("{id}")]
@@ -69,11 +71,24 @@ namespace tresure_api.Controllers
 
             var user_id = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            var adminRole = await _roleRepository.GetRoleByName(MemberRoles.Admin);
+
+            var newMemberRole = new MemberRole
+            {
+                RoleId = adminRole.Id
+            };
+
+            var newMember = new Member
+            {
+                UserId = user_id,
+                Roles = new List<MemberRole> { newMemberRole }
+            };
+
             var newProject = new Project()
             {
                 Title = project.Title,
                 Columns = new List<Column>() { new Column { Title = "To Do", Position = 0 }, new Column { Title = "Doing", Position = 1 }, new Column { Title = "Done", Position = 2 } },
-                Members = new List<Member>() { new Member { UserId = user_id, Roles = new List<Role>() { new Role { Name = MemberRole.Admin } } } }
+                Members = new List<Member>() { newMember }
             };
 
             _projectRepository.CreateProject(newProject);
@@ -108,8 +123,8 @@ namespace tresure_api.Controllers
         {
             var project = await _projectRepository.GetProjectById(id);
 
-            if(project == null)
-            return NotFound();
+            if (project == null)
+                return NotFound();
 
             if (!_userAccessService.IsOwner(project))
             {

@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using tresure_api.Data;
 using tresure_api.Data.Interfaces;
-using tresure_api.Migrations;
 
 namespace tresure_api.Controllers
 {
