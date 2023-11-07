@@ -8,7 +8,7 @@ namespace tresure_api.Data.Interfaces
     {
         Task<IEnumerable<User>> GetAllUsers();
 
-        Task<User> GetUserById(int id);
+        Task<User> GetUserById(string id);
 
         bool CreateUser(User user);
         bool UpdateUser(User user);

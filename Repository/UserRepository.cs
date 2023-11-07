@@ -29,7 +29,7 @@ namespace tresure_api.Repository
             return await _context.AppUsers.ToListAsync();
         }
 
-        public async Task<User> GetUserById(int userId)
+        public async Task<User> GetUserById(string userId)
         {
             return await _context.AppUsers.FindAsync(userId);
         }

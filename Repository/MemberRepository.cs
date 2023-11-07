@@ -28,7 +28,12 @@ namespace tresure_api.Repository
 
         public async Task<Member> GetMemberById(int memberId)
         {
-            return await _context.Members.FirstOrDefaultAsync(m => m.Id == memberId);
+            return await _context.Members.Include(m => m.Project).FirstOrDefaultAsync(m => m.Id == memberId);
+        }
+
+        public async Task<Member> GetMemberByUserId(string id)
+        {
+            return await _context.Members.FirstOrDefaultAsync(m => m.UserId == id);
         }
 
         public async Task<ICollection<Member>> GetMembers()

@@ -10,6 +10,7 @@ namespace tresure_api.Data.Interfaces
         //Task<ICollection<Member>> GetMembersByProjectId(int projectId);
 
         Task<Member> GetMemberById(int id);
+        Task<Member> GetMemberByUserId(string id);
         bool CreateMember(Member member);
         bool UpdateMember(Member member);
         bool DeleteMember(Member member);

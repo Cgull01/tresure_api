@@ -10,16 +10,25 @@ namespace API_tresure.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRoleRepository _roleRepository;
 
-        public UserAccessService(IHttpContextAccessor httpContextAccessor, IRoleRepository roleRepository)
+        public readonly IUserRepository _userRepository;
+
+        public UserAccessService(IHttpContextAccessor httpContextAccessor, IRoleRepository roleRepository, IUserRepository userRepository)
         {
             _httpContextAccessor = httpContextAccessor;
 
             _roleRepository = roleRepository;
+            _userRepository = userRepository;
         }
 
         public string GetUserId()
         {
             return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+        public async Task<User> GetUser()
+        {
+            var user_id = GetUserId();
+
+            return await _userRepository.GetUserById(user_id);
         }
 
         public bool IsOwner(Project project)
