@@ -6,7 +6,7 @@ completion approval date V
 
 user repository completely empty?
 
-add member controller
+add member controller V
 recheck what data i actually need from jsons
 
 add column controller
