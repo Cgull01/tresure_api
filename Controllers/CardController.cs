@@ -39,7 +39,7 @@ namespace tresure_api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetCardDTO>> GetCard(int id)
         {
-            var card = await _cardRepository.GetCardById(id);
+            Card card = await _cardRepository.GetCardById(id);
 
             if (card == null)
             {
@@ -51,7 +51,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            var cardDTO = _mapper.Map<GetCardDTO>(card);
+            GetCardDTO cardDTO = _mapper.Map<GetCardDTO>(card);
 
             return cardDTO;
         }
@@ -59,13 +59,13 @@ namespace tresure_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetCardDTO>>> GetCards()
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var cards = await _cardRepository.GetCards();
 
             var userCards = cards.Where(c => c.Column.Project.Members.Any(m => m.UserId == userId));
 
-            var cardsDTO = _mapper.Map<List<GetCardDTO>>(userCards);
+            List<GetCardDTO> cardsDTO = _mapper.Map<List<GetCardDTO>>(userCards);
 
             return cardsDTO;
         }
@@ -73,7 +73,7 @@ namespace tresure_api.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateCard(PostCardDTO card)
         {
-            var column = await _columnRepository.GetColumnById(card.ColumnId);
+            Column column = await _columnRepository.GetColumnById(card.ColumnId);
 
             // If the column doesn't exist, return a 404 Not Found
             if (column == null)
@@ -87,21 +87,24 @@ namespace tresure_api.Controllers
                 return Unauthorized();
             }
 
-            var assignedMembers = new List<Member>();
+            List<Member> assignedMembers = new List<Member>();
 
             // check if all assigned members exist AND belong to the project
-            foreach (PostMemberDTO member in card.AssignedMembers)
+            if(card.AssignedMembers != null)
             {
-                var dbMember = await _memberRepository.GetMemberById(member.Id);
-                if (dbMember == null || !column.Project.Members.Any(m => m.Id == member.Id))
+                foreach (PostMemberDTO member in card.AssignedMembers)
                 {
-                    return UnprocessableEntity("One or more specified members do not exist.");
+                    Member dbMember = await _memberRepository.GetMemberById(member.Id);
+                    if (dbMember == null || !column.Project.Members.Any(m => m.Id == member.Id))
+                    {
+                        return UnprocessableEntity("One or more specified members do not exist.");
+                    }
+                    assignedMembers.Add(dbMember);
                 }
-                assignedMembers.Add(dbMember);
             }
 
             // If the user is authorized, map the DTO to a Card and create it
-            var newCard = _mapper.Map<Card>(card);
+            Card newCard = _mapper.Map<Card>(card);
             newCard.AssignedMembers = assignedMembers; // directly add the fetched members
 
             _cardRepository.CreateCard(newCard);
@@ -148,7 +151,7 @@ namespace tresure_api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCard(int id)
         {
-            var card = await _cardRepository.GetCardById(id);
+            Card card = await _cardRepository.GetCardById(id);
 
             if (card == null)
                 return NotFound();

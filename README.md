@@ -5,14 +5,18 @@ separate AppRole enum table https://stackoverflow.com/questions/50375357/how-to-
 completion approval date V
 
 user repository completely empty?
-
 add member controller V
-recheck what data i actually need from jsons
+add column controller V
 
-add column controller
+connect to frontend < here
+recheck what data i actually need from jsons
+probably fetching project data when getting cards/collumns to check ownership is bad idea, just get project Id, and fetch project info from UserAccessService
+TEST Column Controller
 RE-TEST Member Controller on front-end
 
-connect to frontend
+unit tests?
+
+frontend types
 
 
 

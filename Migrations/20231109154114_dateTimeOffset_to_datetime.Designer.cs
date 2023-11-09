@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using tresure_api.Data;
@@ -11,9 +12,11 @@ using tresure_api.Data;
 namespace tresure_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231109154114_dateTimeOffset_to_datetime")]
+    partial class dateTimeOffset_to_datetime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,6 +46,7 @@ namespace tresure_api.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Details")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("DueDate")
@@ -52,6 +56,7 @@ namespace tresure_api.Migrations
                         .HasColumnType("jsonb");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -290,7 +295,7 @@ namespace tresure_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d95d02e1-fcc2-4251-86c9-609646a58e0d",
+                            Id = "fa01e8cf-eefd-4f74-8dd9-af59ad459327",
                             Name = "User",
                             NormalizedName = "USER"
                         });

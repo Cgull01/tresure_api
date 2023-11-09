@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Runtime.InteropServices;
+using System.Security.Claims;
 using API_tresure.Models;
 using API_tresure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +35,7 @@ namespace tresure_api.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<getLoginUser>> Login(PostLoginUser login)
         {
-            var user = await _userManager.FindByEmailAsync(login.Email);
+            User user = await _userManager.FindByEmailAsync(login.Email);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, login.Password))
                 return Unauthorized();
@@ -51,8 +52,9 @@ namespace tresure_api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterUser register)
         {
-            var user = new User() { UserName = register.Username, Email = register.Email };
+            User user = new User() { UserName = register.Username, Email = register.Email };
 
+System.Console.WriteLine(user.UserName  +" " + user.Email + " " + register.Password + " " + register.RepeatPassword);
             var result = await _userManager.CreateAsync(user, register.Password);
 
             if (!result.Succeeded)
@@ -83,10 +85,9 @@ namespace tresure_api.Controllers
 
         public async Task<ActionResult<getLoginUser>> GetCurrentUser()
         {
-            var user_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(user_id);
+            string user_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User user = await _userManager.FindByIdAsync(user_id);
 
-            System.Console.WriteLine(user);
             return new getLoginUser
             {
                 Email = user.Email,

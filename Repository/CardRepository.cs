@@ -32,8 +32,9 @@ namespace tresure_api.Repository
             return await _context.Cards.Include(c=>c.AssignedMembers)
                 .Include(c=>c.Column)
                     .ThenInclude(c => c.Project)
-                    .ThenInclude(p => p.Members)
-                    .ThenInclude(m => m.Roles)
+                        .ThenInclude(p => p.Members)
+                            .ThenInclude(m => m.Roles)
+                                .ThenInclude(m => m.Role)
                 .FirstOrDefaultAsync(c => c.Id == cardId);
         }
 

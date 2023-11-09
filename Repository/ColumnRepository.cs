@@ -32,6 +32,7 @@ namespace tresure_api.Repository
             .Include(c => c.Project)
             .ThenInclude(p => p.Members)
                 .ThenInclude(m => m.Roles)
+                    .ThenInclude(m => m.Role)
             .Include(c=> c.Cards).FirstOrDefaultAsync(c => c.Id == columnId);
         }
 

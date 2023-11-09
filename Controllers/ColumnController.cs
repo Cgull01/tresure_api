@@ -92,7 +92,7 @@ namespace tresure_api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> EditCard(EditColumnDTO column)
+        public async Task<ActionResult> EditColumn(EditColumnDTO column)
         {
             Column updatedColumn = await _columnRepository.GetColumnById(column.Id);
 

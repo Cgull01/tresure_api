@@ -47,6 +47,15 @@ namespace API_tresure.Services
         {
             var userId = GetUserId();
 
+            foreach(var mem in project.Members)
+            {
+                System.Console.WriteLine(mem.UserId);
+                foreach(var rol in mem.Roles)
+                {
+                    System.Console.WriteLine(rol.Role.Name);
+                }
+            }
+
             return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Role.Name == MemberRoles.Admin || r.Role.Name == MemberRoles.TaskMaster));
         }
 

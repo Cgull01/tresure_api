@@ -7,13 +7,13 @@ namespace API_tresure.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Details { get; set; } = string.Empty;
+        public string? Title { get; set; }
+        public string? Details { get; set; }
         [Column(TypeName = "jsonb")] public string? Tags { get; set; }
-        public DateTimeOffset? DueDate { get; set; }
-        [Required(ErrorMessage = "Creation Date Is Required")] public required DateTimeOffset CreationDate { get; set; }
-        public DateTimeOffset? CompletionDate { get; set; }
-        public DateTimeOffset? ApprovalDate { get; set; }
+        public DateTime? DueDate { get; set; }
+        [Required(ErrorMessage = "Creation Date Is Required")] public required DateTime CreationDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
+        public DateTime? ApprovalDate { get; set; }
         public List<Member> AssignedMembers { get; set; } = new List<Member>();
         [Required][ForeignKey("Column")] public required int ColumnId { get; set; }
         public Column? Column { get; set; }
@@ -25,23 +25,23 @@ namespace API_tresure.Models
         public string Title { get; set; }
         public string Details { get; set; }
         public string Tags { get; set; }
-        public DateTimeOffset DueDate { get; set; }
-        public DateTimeOffset CreationDate { get; set; }
-        public DateTimeOffset CompletionDate { get; set; }
-        public DateTimeOffset ApprovalDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime CompletionDate { get; set; }
+        public DateTime ApprovalDate { get; set; }
         public List<PostMemberDTO> AssignedMembers { get; set; }
     }
 
     public class PostCardDTO
     {
-        public string Title { get; set; }
-        public string Details { get; set; }
-        public string Tags { get; set; }
-        public DateTimeOffset DueDate { get; set; }
-        public DateTimeOffset CreationDate { get; set; }
-        public DateTimeOffset CompletionDate { get; set; }
-        public DateTimeOffset ApprovalDate { get; set; }
-        public List<PostMemberDTO> AssignedMembers { get; set; }
+        public string? Title { get; set; }
+        public string? Details { get; set; }
+        public string? Tags { get; set; }
+        public DateTime? DueDate { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
+        public DateTime? ApprovalDate { get; set; }
+        public List<PostMemberDTO>? AssignedMembers { get; set; } = new List<PostMemberDTO>();
         public int ColumnId { get; set; }
     }
     public class EditCardDTO
@@ -50,10 +50,10 @@ namespace API_tresure.Models
         public string Title { get; set; }
         public string Details { get; set; }
         public string Tags { get; set; }
-        public DateTimeOffset DueDate { get; set; }
-        public DateTimeOffset CreationDate { get; set; }
-        public DateTimeOffset CompletionDate { get; set; }
-        public DateTimeOffset ApprovalDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime CompletionDate { get; set; }
+        public DateTime ApprovalDate { get; set; }
         public List<PostMemberDTO> AssignedMembers { get; set; }
         public int ColumnId { get; set; }
     }
