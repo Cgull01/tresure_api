@@ -18,15 +18,13 @@ namespace tresure_api.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
         private readonly IRoleRepository _roleRepository;
 
-        public ProjectController(IProjectRepository projectRepository, IRoleRepository roleRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService)
+        public ProjectController(IProjectRepository projectRepository, IRoleRepository roleRepository, IMapper mapper, UserAccessService userAccessService)
         {
             _projectRepository = projectRepository;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _userAccessService = userAccessService;
             _roleRepository = roleRepository;
@@ -42,7 +40,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.isMember(project))
+            if (!_userAccessService.IsMember(project))
             {
                 return NotFound();
             }
@@ -55,8 +53,8 @@ namespace tresure_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetProjectsDTO>>> GetProjects()
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            var userId = _userAccessService.GetUserId();
             var projects = await _projectRepository.GetProjects();
             var userProjects = projects.Where(p => p.Members.Any(m => m.UserId == userId));
 
@@ -69,7 +67,7 @@ namespace tresure_api.Controllers
         public async Task<ActionResult> CreateProject(PostProjectDTO project)
         {
 
-            var user_id = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user_id =  _userAccessService.GetUserId();
 
             var adminRole = await _roleRepository.GetRoleByName(MemberRoles.Admin);
 
@@ -97,9 +95,9 @@ namespace tresure_api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> EditProject(EditProjectDTO project)
+        public async Task<ActionResult> EditProject(int id, [FromQuery] string projectTitle)
         {
-            Project updatedProject = await _projectRepository.GetProjectById(project.Id);
+            Project updatedProject = await _projectRepository.GetProjectById(id);
 
             if (updatedProject == null)
             {
@@ -111,7 +109,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            updatedProject.Title = project.Title;
+            updatedProject.Title = projectTitle;
 
             _projectRepository.UpdateProject(updatedProject);
 

@@ -20,15 +20,12 @@ namespace tresure_api.Controllers
 
         private readonly UserManager<User> _userManager;
         // private readonly SignInManager<User> _signInManager;
-        private readonly AppDbContext _context;
-
         private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService, AppDbContext context)
+        public AccountController(UserManager<User> userManager, TokenService tokenService)
         {
             _userManager = userManager;
             // _signInManager = signInManager;
-            _context = context;
             _tokenService = tokenService;
         }
 
@@ -82,7 +79,6 @@ System.Console.WriteLine(user.UserName  +" " + user.Email + " " + register.Passw
 
         [HttpGet("currentUser")]
         [Authorize]
-
         public async Task<ActionResult<getLoginUser>> GetCurrentUser()
         {
             string user_id = User.FindFirstValue(ClaimTypes.NameIdentifier);

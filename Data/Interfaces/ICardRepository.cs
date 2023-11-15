@@ -8,10 +8,7 @@ namespace tresure_api.Data.Interfaces
     {
         Task <ICollection<Card>> GetCards();
         //Task <ICollection<Card>> GetCardsByProjectId(int projectId);
-
-
         Task <Card> GetCardById(int id);
-
         bool CreateCard(Card card);
         bool UpdateCard(Card card);
         bool DeleteCard(Card card);

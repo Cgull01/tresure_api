@@ -8,15 +8,13 @@ namespace API_tresure.Services
     public class UserAccessService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IRoleRepository _roleRepository;
 
         public readonly IUserRepository _userRepository;
 
-        public UserAccessService(IHttpContextAccessor httpContextAccessor, IRoleRepository roleRepository, IUserRepository userRepository)
+        public UserAccessService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
         {
             _httpContextAccessor = httpContextAccessor;
 
-            _roleRepository = roleRepository;
             _userRepository = userRepository;
         }
 
@@ -37,24 +35,15 @@ namespace API_tresure.Services
 
             return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Role.Name == MemberRoles.Admin));
         }
-        public bool isMember(Project project)
+        public bool IsMember(Project project)
         {
             var userId = GetUserId();
 
             return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Role.Name == MemberRoles.Member || r.Role.Name == MemberRoles.Admin || r.Role.Name == MemberRoles.TaskMaster));
         }
-        public bool isTaskMaster(Project project)
+        public bool IsTaskMaster(Project project)
         {
             var userId = GetUserId();
-
-            foreach(var mem in project.Members)
-            {
-                System.Console.WriteLine(mem.UserId);
-                foreach(var rol in mem.Roles)
-                {
-                    System.Console.WriteLine(rol.Role.Name);
-                }
-            }
 
             return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Role.Name == MemberRoles.Admin || r.Role.Name == MemberRoles.TaskMaster));
         }

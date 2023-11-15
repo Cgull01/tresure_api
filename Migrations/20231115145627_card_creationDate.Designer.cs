@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using tresure_api.Data;
@@ -11,9 +12,11 @@ using tresure_api.Data;
 namespace tresure_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231115145627_card_creationDate")]
+    partial class card_creationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace tresure_api.Migrations
 
                     b.HasIndex("ColumnId");
 
-                    b.ToTable("Cards", (string)null);
+                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("API_tresure.Models.Column", b =>
@@ -83,7 +86,7 @@ namespace tresure_api.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Columns", (string)null);
+                    b.ToTable("Columns");
                 });
 
             modelBuilder.Entity("API_tresure.Models.Member", b =>
@@ -107,7 +110,7 @@ namespace tresure_api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("API_tresure.Models.MemberRole", b =>
@@ -130,7 +133,7 @@ namespace tresure_api.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("MemberRole", (string)null);
+                    b.ToTable("MemberRole");
                 });
 
             modelBuilder.Entity("API_tresure.Models.Project", b =>
@@ -147,7 +150,7 @@ namespace tresure_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("API_tresure.Models.Role", b =>
@@ -163,7 +166,7 @@ namespace tresure_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoles", (string)null);
+                    b.ToTable("AppRoles");
 
                     b.HasData(
                         new
@@ -259,7 +262,7 @@ namespace tresure_api.Migrations
 
                     b.HasIndex("CardsId");
 
-                    b.ToTable("CardMember", (string)null);
+                    b.ToTable("CardMember");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

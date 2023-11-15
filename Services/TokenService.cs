@@ -11,10 +11,8 @@ namespace API_tresure.Services
     {
         private readonly IConfiguration _config;
 
-        private readonly UserManager<User> _userManager;
-        public TokenService(UserManager<User> userManager, IConfiguration config)
+        public TokenService(IConfiguration config)
         {
-            _userManager = userManager;
             _config = config;
         }
 

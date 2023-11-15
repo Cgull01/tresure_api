@@ -13,7 +13,9 @@ namespace tresure_api.Data
 
 
             CreateMap<Column, GetColumnDTO>();
-            CreateMap<Column, PostCardDTO>();
+            CreateMap<Column, PostColumnDTO>();
+            CreateMap<Column, EditColumnDTO>();
+            CreateMap<EditColumnDTO, Column>();
 
             CreateMap<MemberRole, MemberRoleDTO>();
             CreateMap<Role, GetRoleDTO>();

@@ -21,11 +21,10 @@ namespace tresure_api.Controllers
     {
         private readonly IMemberRepository _memberRepository;
         private readonly IProjectRepository _projectRepository;
-        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
 
-        public MemberController(IMapper mapper, UserAccessService userAccessService, IRoleRepository _roleRepository, IMemberRepository memberRepository, IProjectRepository projectRepository)
+        public MemberController(IMapper mapper, UserAccessService userAccessService, IMemberRepository memberRepository, IProjectRepository projectRepository)
         {
             _mapper = mapper;
             _userAccessService = userAccessService;

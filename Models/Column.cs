@@ -24,8 +24,6 @@ namespace API_tresure.Models
 
     public class PostColumnDTO
     {
-        public string Title { get; set; }
-        public int Position { get; set; }
         public int ProjectId {get;set;}
     }
 

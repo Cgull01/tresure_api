@@ -20,15 +20,13 @@ namespace tresure_api.Controllers
     public class ColumnController : ControllerBase
     {
         private readonly IColumnRepository _columnRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
         private readonly IProjectRepository _projectRepository;
 
-        public ColumnController(IColumnRepository columnRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService, IProjectRepository projectRepository)
+        public ColumnController(IColumnRepository columnRepository, IMapper mapper, UserAccessService userAccessService, IProjectRepository projectRepository)
         {
             _columnRepository = columnRepository;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _userAccessService = userAccessService;
             _projectRepository = projectRepository;
@@ -69,10 +67,10 @@ namespace tresure_api.Controllers
         // }
 
         [HttpPost]
-        public async Task<ActionResult> CreateColumn(PostColumnDTO column)
+        public async Task<ActionResult> CreateColumn(int project_id)
         {
 
-            Project project = await _projectRepository.GetProjectById(column.ProjectId);
+            Project project = await _projectRepository.GetProjectById(project_id);
 
             if(project == null)
             {
@@ -84,7 +82,7 @@ namespace tresure_api.Controllers
                 return Unauthorized();
             }
 
-            Column newColumn = _mapper.Map<Column>(column);
+            Column newColumn = new Column(){Position = project.Columns.Count, ProjectId = project_id, Title = "New Column"};
 
             _columnRepository.CreateColumn(newColumn);
 
@@ -94,6 +92,7 @@ namespace tresure_api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> EditColumn(EditColumnDTO column)
         {
+            System.Console.WriteLine(column.Id + " " + column.Position + " " + column.Title + " <<<<<<<<<<<");
             Column updatedColumn = await _columnRepository.GetColumnById(column.Id);
 
             if (updatedColumn == null)
@@ -121,7 +120,7 @@ namespace tresure_api.Controllers
             if (column == null)
                 return NotFound();
 
-            if (!_userAccessService.isTaskMaster(column.Project))
+            if (!_userAccessService.IsTaskMaster(column.Project))
             {
                 return NotFound();
             }

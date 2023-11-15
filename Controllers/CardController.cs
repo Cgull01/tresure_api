@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 using API_tresure.Models;
 using API_tresure.Services;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using tresure_api.Data;
 using tresure_api.Data.Enum;
 using tresure_api.Data.Interfaces;
@@ -22,14 +24,12 @@ namespace tresure_api.Controllers
         private readonly ICardRepository _cardRepository;
         private readonly IColumnRepository _columnRepository;
         private readonly IMemberRepository _memberRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
 
-        public CardController(ICardRepository cardRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserAccessService userAccessService, IColumnRepository columnRepository, IMemberRepository memberRepository)
+        public CardController(ICardRepository cardRepository, IMapper mapper, UserAccessService userAccessService, IColumnRepository columnRepository, IMemberRepository memberRepository)
         {
             _cardRepository = cardRepository;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _userAccessService = userAccessService;
             _columnRepository = columnRepository;
@@ -46,7 +46,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.isMember(card.Column.Project))
+            if (!_userAccessService.IsMember(card.Column.Project))
             {
                 return NotFound();
             }
@@ -59,8 +59,7 @@ namespace tresure_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetCardDTO>>> GetCards()
         {
-            string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
+            var userId = _userAccessService.GetUserId();
             var cards = await _cardRepository.GetCards();
 
             var userCards = cards.Where(c => c.Column.Project.Members.Any(m => m.UserId == userId));
@@ -82,7 +81,7 @@ namespace tresure_api.Controllers
             }
 
             // Check if the user is authorized
-            if (!_userAccessService.isTaskMaster(column.Project))
+            if (!_userAccessService.IsTaskMaster(column.Project))
             {
                 return Unauthorized();
             }
@@ -107,6 +106,9 @@ namespace tresure_api.Controllers
             Card newCard = _mapper.Map<Card>(card);
             newCard.AssignedMembers = assignedMembers; // directly add the fetched members
 
+            DateTime current_date = DateTime.Now.Date;
+            newCard.CreationDate = current_date;
+
             _cardRepository.CreateCard(newCard);
 
             return StatusCode(201);
@@ -122,10 +124,12 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.isTaskMaster(updatedCard.Column.Project))
+            if (!_userAccessService.IsTaskMaster(updatedCard.Column.Project))
             {
                 return NotFound();
             }
+
+            Console.WriteLine(updatedCard.DueDate + "<<<<<");
 
             _mapper.Map(card, updatedCard);
 
@@ -156,7 +160,7 @@ namespace tresure_api.Controllers
             if (card == null)
                 return NotFound();
 
-            if (!_userAccessService.isTaskMaster(card.Column.Project))
+            if (!_userAccessService.IsTaskMaster(card.Column.Project))
             {
                 return NotFound();
             }
