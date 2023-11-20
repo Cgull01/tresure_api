@@ -45,13 +45,29 @@ namespace tresure_api.Controllers
             };
 
         }
+        [HttpGet("user")]
+        public async Task<ActionResult<getUserDTO>> FindUserByEmail(string userEmail)
+        {
+            User user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user == null)
+                return NotFound();
+
+
+            return new getUserDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Username = user.UserName
+            };
+
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterUser register)
         {
             User user = new User() { UserName = register.Username, Email = register.Email };
 
-System.Console.WriteLine(user.UserName  +" " + user.Email + " " + register.Password + " " + register.RepeatPassword);
             var result = await _userManager.CreateAsync(user, register.Password);
 
             if (!result.Succeeded)

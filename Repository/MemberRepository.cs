@@ -38,7 +38,7 @@ namespace tresure_api.Repository
 
         public async Task<ICollection<Member>> GetMembers()
         {
-            return await _context.Members.ToListAsync();
+            return await _context.Members.Include(m => m.User).ToListAsync();
         }
 
         public bool Save()

@@ -92,7 +92,6 @@ namespace tresure_api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> EditColumn(EditColumnDTO column)
         {
-            System.Console.WriteLine(column.Id + " " + column.Position + " " + column.Title + " <<<<<<<<<<<");
             Column updatedColumn = await _columnRepository.GetColumnById(column.Id);
 
             if (updatedColumn == null)

@@ -93,8 +93,8 @@ namespace tresure_api.Controllers
             {
                 foreach (PostMemberDTO member in card.AssignedMembers)
                 {
-                    Member dbMember = await _memberRepository.GetMemberById(member.Id);
-                    if (dbMember == null || !column.Project.Members.Any(m => m.Id == member.Id))
+                    Member dbMember = await _memberRepository.GetMemberByUserId(member.UserId);
+                    if (dbMember == null || !column.Project.Members.Any(m => m.UserId == member.UserId))
                     {
                         return UnprocessableEntity("One or more specified members do not exist.");
                     }
@@ -129,7 +129,6 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            Console.WriteLine(updatedCard.DueDate + "<<<<<");
 
             _mapper.Map(card, updatedCard);
 
@@ -137,7 +136,7 @@ namespace tresure_api.Controllers
             updatedCard.AssignedMembers.Clear();
 
             // Add the new assigned members
-            foreach (PostMemberDTO member in card.AssignedMembers)
+            foreach (EditMemberDTO member in card.AssignedMembers)
             {
                 var dbMember = await _memberRepository.GetMemberById(member.Id);
                 if (dbMember == null || !updatedCard.Column.Project.Members.Any(m => m.Id == member.Id))

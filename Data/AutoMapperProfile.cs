@@ -11,6 +11,8 @@ namespace tresure_api.Data
             CreateMap<Project, EditProjectDTO>();
             CreateMap<Project, PostProjectDTO>();
 
+            CreateMap<User, getUserDTO>();
+
 
             CreateMap<Column, GetColumnDTO>();
             CreateMap<Column, PostColumnDTO>();

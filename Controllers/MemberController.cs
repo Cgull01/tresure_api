@@ -74,6 +74,7 @@ namespace tresure_api.Controllers
             return membersDTO;
         }
 
+
         [HttpPost]
         public async Task<ActionResult> CreateMember(PostMemberDTO member)
         {

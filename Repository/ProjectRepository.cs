@@ -30,8 +30,14 @@ namespace tresure_api.Repository
         public async Task<Project> GetProjectById(int projectId)
         {
             return await _context.Projects
-            .Include(p => p.Columns).ThenInclude(c => c.Cards).ThenInclude(c => c.AssignedMembers)
-            .Include(p => p.Members).ThenInclude(m => m.Roles).ThenInclude(r => r.Role)
+            .Include(p => p.Columns)
+                .ThenInclude(c => c.Cards)
+                    .ThenInclude(c => c.AssignedMembers)
+            .Include(p => p.Members)
+                .ThenInclude(m => m.Roles)
+                    .ThenInclude(r => r.Role)
+            .Include(p => p.Members)
+                    .ThenInclude(m => m.User)
             .FirstOrDefaultAsync(p => p.Id == projectId);
         }
 

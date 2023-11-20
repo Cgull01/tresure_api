@@ -54,7 +54,7 @@ namespace API_tresure.Models
         public DateTime CreationDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
-        public List<PostMemberDTO>? AssignedMembers { get; set; }
+        public List<EditMemberDTO>? AssignedMembers { get; set; }
         public int ColumnId { get; set; }
     }
 }

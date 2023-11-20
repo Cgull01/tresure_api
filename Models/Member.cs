@@ -15,21 +15,18 @@ namespace API_tresure.Models
         public List<MemberRole> Roles { get; set; } = new List<MemberRole>();
         public List<Card> Cards { get; set; } = new List<Card>();
 
-        public Member(){
-            Roles.Add(new MemberRole {Role = new Role {Name = MemberRoles.Member}});
-        }
     }
 
     public class GetMemberDTO
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
+        // public string UserId { get; set; }
+        public getUserDTO User {get;set;}
         public List<MemberRoleDTO> Roles { get; set; }
     }
     public class PostMemberDTO
     {
-        public int Id {get;set;}
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int ProjectId { get; set; }
     }
 
