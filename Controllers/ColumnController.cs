@@ -77,7 +77,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(project))
+            if (!_userAccessService.IsAdmin(project))
             {
                 return Unauthorized();
             }
@@ -99,7 +99,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(updatedColumn.Project))
+            if (!_userAccessService.IsAdmin(updatedColumn.Project))
             {
                 return NotFound();
             }

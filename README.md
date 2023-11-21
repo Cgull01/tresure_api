@@ -1,12 +1,6 @@
 
 
 TODO:
-separate AppRole enum table https://stackoverflow.com/questions/50375357/how-to-create-a-table-corresponding-to-enum-in-ef-core-code-first V
-completion approval date V
-
-user repository completely empty?
-add member controller V
-add column controller V
 
 connect to frontend < here
 recheck what data i actually need from jsons
@@ -15,9 +9,6 @@ TEST Column Controller
 RE-TEST Member Controller on front-end
 
 unit tests?
-
-frontend types
-
 
 
 dotnet commands:

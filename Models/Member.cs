@@ -33,6 +33,6 @@ namespace API_tresure.Models
     public class EditMemberDTO
     {
         public int Id { get; set; }
-        public List<MemberRole> Roles { get; set; }
+        public int Role { get; set; }
     }
 }

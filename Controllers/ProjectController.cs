@@ -104,7 +104,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(updatedProject))
+            if (!_userAccessService.IsAdmin(updatedProject))
             {
                 return NotFound();
             }
@@ -124,7 +124,7 @@ namespace tresure_api.Controllers
             if (project == null)
                 return NotFound();
 
-            if (!_userAccessService.IsOwner(project))
+            if (!_userAccessService.IsAdmin(project))
             {
                 return NotFound();
             }

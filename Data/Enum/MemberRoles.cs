@@ -2,7 +2,7 @@
 {
     public enum MemberRoles
     {
-        Admin,
+        Admin = 0,
         Member,
         TaskMaster
     }

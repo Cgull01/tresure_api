@@ -24,6 +24,7 @@ namespace tresure_api.Data
 
             CreateMap<Member, GetMemberDTO>();
             CreateMap<Member, PostMemberDTO>();
+            CreateMap<EditMemberDTO, Member>();
             CreateMap<PostMemberDTO, Member>();
 
             CreateMap<Card, GetCardDTO>();

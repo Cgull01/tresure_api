@@ -21,15 +21,17 @@ namespace tresure_api.Controllers
     {
         private readonly IMemberRepository _memberRepository;
         private readonly IProjectRepository _projectRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
 
-        public MemberController(IMapper mapper, UserAccessService userAccessService, IMemberRepository memberRepository, IProjectRepository projectRepository)
+        public MemberController(IMapper mapper, UserAccessService userAccessService, IMemberRepository memberRepository, IProjectRepository projectRepository, IRoleRepository roleRepository)
         {
             _mapper = mapper;
             _userAccessService = userAccessService;
             _memberRepository = memberRepository;
             _projectRepository = projectRepository;
+            _roleRepository = roleRepository;
         }
 
         // [HttpGet("{id}")]
@@ -58,9 +60,9 @@ namespace tresure_api.Controllers
 
             string user_id = _userAccessService.GetUserId();
 
-            var project =await _projectRepository.GetProjectById(projectId);
+            var project = await _projectRepository.GetProjectById(projectId);
 
-            if(!project.Members.Any(m => m.UserId == user_id))
+            if (!project.Members.Any(m => m.UserId == user_id))
             {
                 return StatusCode(401, "Requester Is Not A Member Of The Project");
             }
@@ -85,7 +87,7 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(project))
+            if (!_userAccessService.IsAdmin(project))
             {
                 return Unauthorized();
             }
@@ -100,6 +102,7 @@ namespace tresure_api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> EditMember(EditMemberDTO member)
         {
+
             Member updatedMember = await _memberRepository.GetMemberById(member.Id);
 
             if (updatedMember == null)
@@ -107,9 +110,25 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsOwner(updatedMember.Project))
+            var project = await _projectRepository.GetProjectById(updatedMember.ProjectId);
+
+            if (!_userAccessService.IsAdmin(project))
             {
-                return NotFound();
+                return Unauthorized();
+            }
+
+            var roleInDTO = await _roleRepository.GetRoleByName((MemberRoles)member.Role);
+
+            var existingRole = updatedMember.Roles.FirstOrDefault(r => r.Role.Id == roleInDTO.Id);
+
+
+            if (existingRole != null)
+            {
+                updatedMember.Roles.Remove(existingRole);
+            }
+            else
+            {
+                updatedMember.Roles.Add(new MemberRole{ RoleId = roleInDTO.Id});
             }
 
             _mapper.Map(member, updatedMember);
@@ -127,7 +146,7 @@ namespace tresure_api.Controllers
             if (member == null)
                 return NotFound();
 
-            if (_userAccessService.IsOwner(member.Project))
+            if (_userAccessService.IsAdmin(member.Project))
             {
                 return Unauthorized();
             }

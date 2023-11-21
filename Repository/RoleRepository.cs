@@ -29,5 +29,6 @@ namespace tresure_api.Repository
         {
             return await _context.AppRoles.ToListAsync();
         }
+
     }
 }

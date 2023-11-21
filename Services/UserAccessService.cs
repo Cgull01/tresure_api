@@ -29,7 +29,7 @@ namespace API_tresure.Services
             return await _userRepository.GetUserById(user_id);
         }
 
-        public bool IsOwner(Project project)
+        public bool IsAdmin(Project project)
         {
             var userId = GetUserId();
 
@@ -39,7 +39,7 @@ namespace API_tresure.Services
         {
             var userId = GetUserId();
 
-            return project.Members.Any(m => m.UserId == userId && m.Roles.Any(r => r.Role.Name == MemberRoles.Member || r.Role.Name == MemberRoles.Admin || r.Role.Name == MemberRoles.TaskMaster));
+            return project.Members.Any(m => m.UserId == userId);
         }
         public bool IsTaskMaster(Project project)
         {
