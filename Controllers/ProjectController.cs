@@ -67,19 +67,15 @@ namespace tresure_api.Controllers
         public async Task<ActionResult> CreateProject(PostProjectDTO project)
         {
 
-            var user_id =  _userAccessService.GetUserId();
+            var user_id = _userAccessService.GetUserId();
 
             var adminRole = await _roleRepository.GetRoleByName(MemberRoles.Admin);
-
-            var newMemberRole = new MemberRole
-            {
-                RoleId = adminRole.Id
-            };
+            var ownerRole = await _roleRepository.GetRoleByName(MemberRoles.Owner);
 
             var newMember = new Member
             {
                 UserId = user_id,
-                Roles = new List<MemberRole> { newMemberRole }
+                Roles = new List<MemberRole> { new MemberRole { RoleId = adminRole.Id }, new MemberRole { RoleId = ownerRole.Id } }
             };
 
             var newProject = new Project()

@@ -121,14 +121,20 @@ namespace tresure_api.Controllers
 
             var existingRole = updatedMember.Roles.FirstOrDefault(r => r.Role.Id == roleInDTO.Id);
 
+            var isMemberOwner = updatedMember.Roles.FirstOrDefault(r => r.Role.Name == MemberRoles.Owner);
+
 
             if (existingRole != null)
             {
+                if (isMemberOwner != null && roleInDTO.Name == MemberRoles.Admin)
+                {
+                    return StatusCode(403, "An Owner Cannot Remove Their Own Admin Role.");
+                }
                 updatedMember.Roles.Remove(existingRole);
             }
             else
             {
-                updatedMember.Roles.Add(new MemberRole{ RoleId = roleInDTO.Id});
+                updatedMember.Roles.Add(new MemberRole { RoleId = roleInDTO.Id });
             }
 
             _mapper.Map(member, updatedMember);

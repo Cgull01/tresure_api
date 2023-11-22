@@ -31,7 +31,8 @@ namespace tresure_api.Data
             builder.Entity<Role>().HasData(
                 new Role{Id = 1, Name = MemberRoles.Admin},
                 new Role{Id = 2, Name = MemberRoles.Member},
-                new Role{Id = 3, Name = MemberRoles.TaskMaster}
+                new Role{Id = 3, Name = MemberRoles.TaskMaster},
+                new Role{Id = 4, Name = MemberRoles.Owner}
             );
         }
 

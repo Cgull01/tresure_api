@@ -4,6 +4,7 @@
     {
         Admin = 0,
         Member,
-        TaskMaster
+        TaskMaster,
+        Owner
     }
 }
