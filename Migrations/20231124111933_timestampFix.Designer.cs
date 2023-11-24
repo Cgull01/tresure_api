@@ -12,8 +12,8 @@ using tresure_api.Data;
 namespace tresure_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231109161255_nullable_card_values")]
-    partial class nullable_card_values
+    [Migration("20231124111933_timestampFix")]
+    partial class timestampFix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,22 +34,22 @@ namespace tresure_api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("ApprovalDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("ColumnId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("CompletionDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Details")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("DueDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Tags")
                         .HasColumnType("jsonb");
@@ -183,6 +183,11 @@ namespace tresure_api.Migrations
                         {
                             Id = 3,
                             Name = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = 3
                         });
                 });
 
@@ -289,14 +294,6 @@ namespace tresure_api.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "d95d02e1-fcc2-4251-86c9-609646a58e0d",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -80,8 +80,6 @@ namespace tresure_api.Controllers
                 return ValidationProblem();
             }
 
-            await _userManager.AddToRoleAsync(user, UserRoles.User);
-
             return StatusCode(201);
         }
 

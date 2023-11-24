@@ -25,9 +25,6 @@ namespace tresure_api.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityRole>().HasData(
-                new IdentityRole{Name = "User", NormalizedName = "USER"}
-            );
             builder.Entity<Role>().HasData(
                 new Role{Id = 1, Name = MemberRoles.Admin},
                 new Role{Id = 2, Name = MemberRoles.Member},

@@ -128,7 +128,8 @@ namespace tresure_api.Controllers
             {
                 if (isMemberOwner != null && roleInDTO.Name == MemberRoles.Admin)
                 {
-                    return StatusCode(403, "An Owner Cannot Remove Their Own Admin Role.");
+                    return StatusCode(403, "Cannot Remove The Admin Role From The Owner.");
+
                 }
                 updatedMember.Roles.Remove(existingRole);
             }

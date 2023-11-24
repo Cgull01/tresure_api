@@ -6,16 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace tresure_api.Migrations
 {
     /// <inheritdoc />
-    public partial class OwnerRole : Migration
+    public partial class timestampFix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "8572ac60-a759-43e6-b060-1a2a507fed2f");
-
             migrationBuilder.AlterColumn<DateTime>(
                 name: "DueDate",
                 table: "Cards",
@@ -50,31 +45,11 @@ namespace tresure_api.Migrations
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp with time zone",
                 oldNullable: true);
-
-            migrationBuilder.InsertData(
-                table: "AppRoles",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 4, 3 });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "a9c2478b-632f-458e-8748-7f8691c6bbdd", null, "User", "USER" });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "AppRoles",
-                keyColumn: "Id",
-                keyValue: 4);
-
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "a9c2478b-632f-458e-8748-7f8691c6bbdd");
-
             migrationBuilder.AlterColumn<DateTime>(
                 name: "DueDate",
                 table: "Cards",
@@ -109,11 +84,6 @@ namespace tresure_api.Migrations
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
                 oldNullable: true);
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "8572ac60-a759-43e6-b060-1a2a507fed2f", null, "User", "USER" });
         }
     }
 }

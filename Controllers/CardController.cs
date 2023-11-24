@@ -124,11 +124,10 @@ namespace tresure_api.Controllers
                 return NotFound();
             }
 
-            if (!_userAccessService.IsTaskMaster(updatedCard.Column.Project))
+            if (!_userAccessService.IsMember(updatedCard.Column.Project))
             {
                 return NotFound();
             }
-
 
             _mapper.Map(card, updatedCard);
 
