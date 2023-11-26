@@ -74,12 +74,12 @@ namespace tresure_api.Controllers
 
             if(project == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             if (!_userAccessService.IsAdmin(project))
             {
-                return Unauthorized();
+                return Forbid(ErrorMessages.Messages[403]);
             }
 
             Column newColumn = new Column(){Position = project.Columns.Count, ProjectId = project_id, Title = "New Column"};
@@ -96,12 +96,12 @@ namespace tresure_api.Controllers
 
             if (updatedColumn == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             if (!_userAccessService.IsAdmin(updatedColumn.Project))
             {
-                return NotFound();
+                return Unauthorized(ErrorMessages.Messages[403]);
             }
 
             _mapper.Map(column, updatedColumn);
@@ -117,11 +117,11 @@ namespace tresure_api.Controllers
             Column column = await _columnRepository.GetColumnById(id);
 
             if (column == null)
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
 
             if (!_userAccessService.IsTaskMaster(column.Project))
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[403]);
             }
 
             _columnRepository.DeleteColumn(column);

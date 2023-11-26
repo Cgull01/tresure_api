@@ -64,7 +64,7 @@ namespace tresure_api.Controllers
 
             if (!project.Members.Any(m => m.UserId == user_id))
             {
-                return StatusCode(401, "Requester Is Not A Member Of The Project");
+                return Forbid(ErrorMessages.Messages[403]);
             }
 
             var members = await _memberRepository.GetMembers();
@@ -84,12 +84,12 @@ namespace tresure_api.Controllers
 
             if (project == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             if (!_userAccessService.IsAdmin(project))
             {
-                return Unauthorized();
+                return Unauthorized(ErrorMessages.Messages[403]);
             }
 
             var newMember = _mapper.Map<Member>(member);
@@ -107,14 +107,14 @@ namespace tresure_api.Controllers
 
             if (updatedMember == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             var project = await _projectRepository.GetProjectById(updatedMember.ProjectId);
 
             if (!_userAccessService.IsAdmin(project))
             {
-                return Unauthorized();
+                return Unauthorized(ErrorMessages.Messages[401]);
             }
 
             var roleInDTO = await _roleRepository.GetRoleByName((MemberRoles)member.Role);
@@ -151,11 +151,11 @@ namespace tresure_api.Controllers
             var member = await _memberRepository.GetMemberById(id);
 
             if (member == null)
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
 
             if (_userAccessService.IsAdmin(member.Project))
             {
-                return Unauthorized();
+                return Forbid(ErrorMessages.Messages[403]);
             }
 
             _memberRepository.DeleteMember(member);

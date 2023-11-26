@@ -35,7 +35,7 @@ namespace tresure_api.Controllers
             User user = await _userManager.FindByEmailAsync(login.Email);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, login.Password))
-                return Unauthorized();
+                return Unauthorized(ErrorMessages.Messages[401]);
 
             return new getLoginUser
             {
@@ -51,7 +51,7 @@ namespace tresure_api.Controllers
             User user = await _userManager.FindByEmailAsync(userEmail);
 
             if (user == null)
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
 
 
             return new getUserDTO

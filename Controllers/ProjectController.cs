@@ -37,12 +37,12 @@ namespace tresure_api.Controllers
 
             if (project == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             if (!_userAccessService.IsMember(project))
             {
-                return NotFound();
+                return Forbid(ErrorMessages.Messages[403]);
             }
 
             var projectDTO = _mapper.Map<GetProjectDTO>(project);
@@ -97,12 +97,12 @@ namespace tresure_api.Controllers
 
             if (updatedProject == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             if (!_userAccessService.IsAdmin(updatedProject))
             {
-                return NotFound();
+                return Forbid(ErrorMessages.Messages[403]);
             }
 
             updatedProject.Title = projectTitle;
@@ -118,11 +118,11 @@ namespace tresure_api.Controllers
             var project = await _projectRepository.GetProjectById(id);
 
             if (project == null)
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
 
             if (!_userAccessService.IsAdmin(project))
             {
-                return NotFound();
+                return Forbid(ErrorMessages.Messages[403]);
             }
 
             _projectRepository.DeleteProject(project);

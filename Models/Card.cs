@@ -29,7 +29,7 @@ namespace API_tresure.Models
         public DateTime CreationDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
-        public List<PostMemberDTO>? AssignedMembers { get; set; }
+        public List<AssignedMemberDTO>? AssignedMembers { get; set; }
     }
 
     public class PostCardDTO
@@ -41,7 +41,7 @@ namespace API_tresure.Models
         public DateTime CreationDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
-        public List<PostMemberDTO>? AssignedMembers { get; set; } = new List<PostMemberDTO>();
+        public List<AssignedMemberDTO>? AssignedMembers { get; set; } = new List<AssignedMemberDTO>();
         public int ColumnId { get; set; }
     }
     public class EditCardDTO
@@ -54,7 +54,7 @@ namespace API_tresure.Models
         public DateTime CreationDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
-        public List<EditMemberDTO>? AssignedMembers { get; set; } = new List<EditMemberDTO>();
+        public List<AssignedMemberDTO>? AssignedMembers { get; set; } = new List<AssignedMemberDTO>();
         public int ColumnId { get; set; }
     }
 }

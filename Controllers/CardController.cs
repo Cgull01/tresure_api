@@ -43,12 +43,12 @@ namespace tresure_api.Controllers
 
             if (card == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             if (!_userAccessService.IsMember(card.Column.Project))
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             GetCardDTO cardDTO = _mapper.Map<GetCardDTO>(card);
@@ -77,13 +77,13 @@ namespace tresure_api.Controllers
             // If the column doesn't exist, return a 404 Not Found
             if (column == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             // Check if the user is authorized
             if (!_userAccessService.IsTaskMaster(column.Project))
             {
-                return Unauthorized();
+                return Unauthorized(ErrorMessages.Messages[403]);
             }
 
             List<Member> assignedMembers = new List<Member>();
@@ -91,12 +91,12 @@ namespace tresure_api.Controllers
             // check if all assigned members exist AND belong to the project
             if(card.AssignedMembers != null)
             {
-                foreach (PostMemberDTO member in card.AssignedMembers)
+                foreach (AssignedMemberDTO member in card.AssignedMembers)
                 {
-                    Member dbMember = await _memberRepository.GetMemberByUserId(member.UserId);
-                    if (dbMember == null || !column.Project.Members.Any(m => m.UserId == member.UserId))
+                    Member dbMember = await _memberRepository.GetMemberById(member.Id);
+                    if (dbMember == null || !column.Project.Members.Any(m => m.Id == member.Id))
                     {
-                        return UnprocessableEntity("One or more specified members do not exist.");
+                        return BadRequest(ErrorMessages.Messages[400]);
                     }
                     assignedMembers.Add(dbMember);
                 }
@@ -121,12 +121,12 @@ namespace tresure_api.Controllers
 
             if (updatedCard == null)
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             if (!_userAccessService.IsMember(updatedCard.Column.Project))
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             _mapper.Map(card, updatedCard);
@@ -135,12 +135,12 @@ namespace tresure_api.Controllers
             updatedCard.AssignedMembers.Clear();
 
             // Add the new assigned members
-            foreach (EditMemberDTO member in card.AssignedMembers)
+            foreach (AssignedMemberDTO member in card.AssignedMembers)
             {
                 var dbMember = await _memberRepository.GetMemberById(member.Id);
                 if (dbMember == null || !updatedCard.Column.Project.Members.Any(m => m.Id == member.Id))
                 {
-                    return UnprocessableEntity("One or more specified members do not exist.");
+                    return BadRequest(ErrorMessages.Messages[400]);
                 }
                 updatedCard.AssignedMembers.Add(dbMember);
             }
@@ -156,11 +156,11 @@ namespace tresure_api.Controllers
             Card card = await _cardRepository.GetCardById(id);
 
             if (card == null)
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
 
             if (!_userAccessService.IsTaskMaster(card.Column.Project))
             {
-                return NotFound();
+                return NotFound(ErrorMessages.Messages[404]);
             }
 
             _cardRepository.DeleteCard(card);
