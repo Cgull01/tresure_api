@@ -112,3 +112,6 @@ E:\Programing\c#\tresure_api\obj\Debug\net7.0\tresure_api.genruntimeconfig.cache
 E:\Programing\c#\tresure_api\obj\Debug\net7.0\ref\tresure_api.dll
 E:\Programing\c#\tresure_api\bin\Debug\net7.0\AutoMapper.dll
 E:\Programing\c#\tresure_api\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:\Programing\c#\tresure_api\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+E:\Programing\c#\tresure_api\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Common.dll
+E:\Programing\c#\tresure_api\bin\Debug\net7.0\Microsoft.Extensions.Features.dll

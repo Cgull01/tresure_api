@@ -5,7 +5,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using tresure_api.Controllers.Hubs;
 using tresure_api.Data;
 using tresure_api.Data.Enum;
 using tresure_api.Data.Interfaces;
@@ -21,13 +23,22 @@ namespace tresure_api.Controllers
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
         private readonly IRoleRepository _roleRepository;
+        private readonly IHubContext<ProjectHub> _hubContext;
 
-        public ProjectController(IProjectRepository projectRepository, IRoleRepository roleRepository, IMapper mapper, UserAccessService userAccessService)
+        public ProjectController(IProjectRepository projectRepository, IRoleRepository roleRepository, IMapper mapper, UserAccessService userAccessService, IHubContext<ProjectHub> hubContext)
         {
             _projectRepository = projectRepository;
             _mapper = mapper;
             _userAccessService = userAccessService;
             _roleRepository = roleRepository;
+            _hubContext = hubContext;
+        }
+
+        [HttpPost("UpdateProject")]
+        public async Task<IActionResult> UpdateProject(string user, string projectUpdate)
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveProjectUpdate", user, projectUpdate);
+            return Ok();
         }
 
         [HttpGet("{id}")]

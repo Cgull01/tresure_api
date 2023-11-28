@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using tresure_api.Controllers.Hubs;
 using tresure_api.Data;
 using tresure_api.Data.Interfaces;
 using tresure_api.Repository;
@@ -18,6 +19,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR(hubOptions =>
+{
+    hubOptions.EnableDetailedErrors = true;
+}); ;
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
@@ -32,7 +37,14 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("DATABASE_URL")));
 builder.Services.AddScoped<UserAccessService>();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddCors();
+builder.Services
+            .AddCors(options =>
+            {
+                options.AddPolicy(name: "Test101", builder =>
+                {
+                    builder.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                });
+            });
 builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.Password.RequireNonAlphanumeric = false;
@@ -57,7 +69,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -102,10 +113,22 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors("Test101");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<ProjectHub>("/projectHub");
+});
+
+app.UseHttpsRedirection();
+
+
 
 app.MapControllers();
 
