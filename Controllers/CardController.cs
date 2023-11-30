@@ -1,18 +1,10 @@
-﻿using System.Diagnostics;
-using System.Security.Claims;
-using System.Text.Json.Serialization;
-using API_tresure.Models;
+﻿using API_tresure.Models;
 using API_tresure.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using tresure_api.Data;
-using tresure_api.Data.Enum;
 using tresure_api.Data.Interfaces;
-using tresure_api.Repository;
 
 namespace tresure_api.Controllers
 {
@@ -104,7 +96,9 @@ namespace tresure_api.Controllers
 
             // If the user is authorized, map the DTO to a Card and create it
             Card newCard = _mapper.Map<Card>(card);
-            newCard.AssignedMembers = assignedMembers; // directly add the fetched members
+
+            // directly add the fetched members
+            newCard.AssignedMembers = assignedMembers;
 
             DateTime current_date = DateTime.Now.Date;
             newCard.CreationDate = current_date;

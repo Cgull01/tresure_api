@@ -35,9 +35,9 @@ namespace tresure_api.Controllers
         }
 
         [HttpPost("UpdateProject")]
-        public async Task<IActionResult> UpdateProject(string user, string projectUpdate)
+        public async Task<IActionResult> UpdateProject()
         {
-            await _hubContext.Clients.All.SendAsync("ReceiveProjectUpdate", user, projectUpdate);
+            await _hubContext.Clients.All.SendAsync("ReceiveProjectUpdate");
             return Ok();
         }
 

@@ -6,9 +6,9 @@ namespace tresure_api.Controllers.Hubs
 {
     public class ProjectHub : Hub
     {
-        public async Task SendProjectUpdate(string user, string projectUpdate)
+        public async Task SendProjectUpdate()
         {
-            await Clients.All.SendAsync("ReceiveProjectUpdate", user, projectUpdate);
+            await Clients.All.SendAsync("ReceiveProjectUpdate");
         }
     }
 }
