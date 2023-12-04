@@ -23,15 +23,17 @@ namespace tresure_api.Controllers
         private readonly IMapper _mapper;
         private readonly UserAccessService _userAccessService;
         private readonly IRoleRepository _roleRepository;
+        private readonly IMemberRepository _memberRepository;
         private readonly IHubContext<ProjectHub> _hubContext;
 
-        public ProjectController(IProjectRepository projectRepository, IRoleRepository roleRepository, IMapper mapper, UserAccessService userAccessService, IHubContext<ProjectHub> hubContext)
+        public ProjectController(IProjectRepository projectRepository, IRoleRepository roleRepository, IMemberRepository memberRepository, IMapper mapper, UserAccessService userAccessService, IHubContext<ProjectHub> hubContext)
         {
             _projectRepository = projectRepository;
             _mapper = mapper;
             _userAccessService = userAccessService;
             _roleRepository = roleRepository;
             _hubContext = hubContext;
+            _memberRepository = memberRepository;
         }
 
         [HttpPost("UpdateProject")]
@@ -69,7 +71,12 @@ namespace tresure_api.Controllers
             var projects = await _projectRepository.GetProjects();
             var userProjects = projects.Where(p => p.Members.Any(m => m.UserId == userId));
 
-            var projectsDTO = _mapper.Map<List<GetProjectsDTO>>(userProjects);
+            var projectsDTO = new List<GetProjectsDTO>();
+
+            foreach(var project in userProjects)
+            {
+                projectsDTO.Add(new GetProjectsDTO{Id = project.Id, Title = project.Title, UserAsMember = project.Members.FirstOrDefault(m => m.UserId == userId)});
+            }
 
             return projectsDTO;
         }
@@ -77,7 +84,6 @@ namespace tresure_api.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateProject(PostProjectDTO project)
         {
-
             var user_id = _userAccessService.GetUserId();
 
             var adminRole = await _roleRepository.GetRoleByName(MemberRoles.Admin);
@@ -131,12 +137,32 @@ namespace tresure_api.Controllers
             if (project == null)
                 return NotFound(ErrorMessages.Messages[404]);
 
-            if (!_userAccessService.IsAdmin(project))
+            if (_userAccessService.IsAdmin(project))
+            {
+                // if user is owner of the project, delete the project
+                _projectRepository.DeleteProject(project);
+            }
+            else if(_userAccessService.IsMember(project))
+            {
+                // if user is member of the project, remove user from members
+                var userId = _userAccessService.GetUserId();
+                var userAsMember = project.Members.FirstOrDefault(m => m.UserId == userId);
+
+                if(userAsMember != null)
+                {
+                    _memberRepository.DeleteMember(userAsMember);
+                }
+                else
+                {
+                    return Forbid(ErrorMessages.Messages[403]);
+                }
+
+            }
+            else
             {
                 return Forbid(ErrorMessages.Messages[403]);
             }
 
-            _projectRepository.DeleteProject(project);
             return NoContent();
         }
 

@@ -40,7 +40,7 @@ namespace tresure_api.Controllers
 
             if (!_userAccessService.IsMember(card.Column.Project))
             {
-                return NotFound(ErrorMessages.Messages[404]);
+                return Unauthorized(ErrorMessages.Messages[403]);
             }
 
             GetCardDTO cardDTO = _mapper.Map<GetCardDTO>(card);
@@ -69,7 +69,7 @@ namespace tresure_api.Controllers
             // If the column doesn't exist, return a 404 Not Found
             if (column == null)
             {
-                return NotFound(ErrorMessages.Messages[404]);
+                return BadRequest(ErrorMessages.Messages[400]);
             }
 
             // Check if the user is authorized
@@ -120,7 +120,7 @@ namespace tresure_api.Controllers
 
             if (!_userAccessService.IsMember(updatedCard.Column.Project))
             {
-                return NotFound(ErrorMessages.Messages[404]);
+                return Unauthorized(ErrorMessages.Messages[403]);
             }
 
             _mapper.Map(card, updatedCard);
@@ -141,7 +141,7 @@ namespace tresure_api.Controllers
 
             _cardRepository.UpdateCard(updatedCard);
 
-            return StatusCode(200);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -154,7 +154,7 @@ namespace tresure_api.Controllers
 
             if (!_userAccessService.IsTaskMaster(card.Column.Project))
             {
-                return NotFound(ErrorMessages.Messages[404]);
+                return Unauthorized(ErrorMessages.Messages[403]);
             }
 
             _cardRepository.DeleteCard(card);

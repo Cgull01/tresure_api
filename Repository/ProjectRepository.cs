@@ -59,7 +59,10 @@ namespace tresure_api.Repository
 
         public async Task<IEnumerable<Project>> GetProjects()
         {
-            return await _context.Projects.Include(p=>p.Members).ToListAsync();
+            return await _context.Projects
+            .Include(p=>p.Members)
+                .ThenInclude(m => m.Roles)
+                    .ThenInclude(r => r.Role).ToListAsync();
         }
 
         public bool Save()
