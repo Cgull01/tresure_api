@@ -92,6 +92,11 @@ namespace tresure_api.Controllers
                 return Unauthorized(ErrorMessages.Messages[403]);
             }
 
+            if(project.Members.Any(m => m.UserId == member.UserId))
+            {
+                return Conflict(ErrorMessages.Messages[409]);
+            }
+
             var newMember = _mapper.Map<Member>(member);
 
             _memberRepository.CreateMember(newMember);

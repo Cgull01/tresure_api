@@ -10,7 +10,9 @@ namespace tresure_api.Data
 
         { 403, "Access to resource is restricted." },
 
-        { 404, "Resource not found." }
+        { 404, "Resource not found." },
+
+        { 409, "Resource already exists." }
     };
     }
 }
