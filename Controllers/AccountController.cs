@@ -83,13 +83,6 @@ namespace tresure_api.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("logout")]
-        [Authorize]
-        public async Task<IActionResult> Logout()
-        {
-            // await _signInManager.SignOutAsync();
-            return Ok();
-        }
 
         [HttpGet("currentUser")]
         [Authorize]

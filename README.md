@@ -1,191 +1,351 @@
 
-
-TODO:
-
-connect to frontend < here
-recheck what data i actually need from jsons
-probably fetching project data when getting cards/collumns to check ownership is bad idea, just get project Id, and fetch project info from UserAccessService
-TEST Column Controller
-RE-TEST Member Controller on front-end
-
-unit tests?
-
-
-dotnet commands:
-
-dotnet ef migrations add YourMigrationName
-dotnet ef database update
-dotnet watch --no-hot-reload
+# Tresure_api
 
 ---
 
-all
-/api/Cards
-/api/Columns
-/api/Member
-/api/Projects
-/api/Roles
-/api/Users
-/api/Account/login
-/api/Account/register
+## Account
 
----
-actually needed routes
-/api/Projects
-/api/Cards
-/api/Columns
-/api/Member
-/api/login
-/api/register
+### Login
+- **Method**: POST
+- **Path**: /api/login
+- **Body**:
+```
+{
+  "email": "user@example.com",
+  "password": "string"
+}
+```
+- **Response Example**:
+```
+{
+  "email": "string",
+  "username": "string",
+  "token": "string"
+}
+```
 
----
+### Get User
+- **Method**: GET
+- **Path**: /api/user
+- **Body**:
+```
+/api/user?userEmail=test@test.com
+```
+- **Response Example**:
+```
+{
+  "id": "string",
+  "email": "string",
+  "username": "string"
+}
+```
 
-/api/Projects               GET           list      200
-/api/Projects/{project_id}  GET           one       200
-/api/Projects/              POST          create    201
-/api/Projects/{project_id}  PUT/PATCH     edit      200
-/api/Projects/{project_id}  DELETE        remove    404/204
+### Register
+- **Method**: POST
+- **Path**: /api/register
+- **Body**:
+```
+{
+  "username": "string",
+  "email": "user@example.com",
+  "password": "string",
+  "repeatPassword": "string"
+}
+```
+- **Response Example**:
+```
+{
+  "id": "string",
+  "email": "string",
+  "username": "string"
+}
+```
 
----
-GET
+### Get Current User
+- **Method**: GET
+- **Path**: /api/currentUser
 
-id
-title
-columns
-    id
-    title
-    position
-    cards
-        id
-        title
-        details
-        tags
-        dueDate
-        creationDate
-        completionDate
-        assignedMembers
-            userId? (when displaying on card get username from members)
-members
-    userId
-    username
-    email
-    roles
-        roleId
-        roleName
-
-
----
-POST
-
-title
-(in api) members {userId, projectId, roles: admin}
-
----
-
-/api/Projects/{id}/Cards                  GET           list      200
-
-/api/Cards/{card_id}        GET           single    200
-/api/Cards/                 POST          create    201
-/api/Cards/{card_id}        PUT/PATCH     edit      200
-/api/Cards/{card_id}        DELETE        remove    404/204
-
-
----
-GET
-
-id
-title
-details
-tags
-dueDate
-creationDate
-isComplete
-assignedMembers
-    userId? (when displaying on card get username from members)
-
-
----
-POST
-
-title
-details
-tags
-duedate
-creationDate(in api probably)
-isComplete(in api, false)
-assignedMembers
-    userId
-columnId
+- **Response Example**:
+```
+{
+  "email": "string",
+  "username": "string",
+  "token": "string"
+}
+```
 
 ---
 
-/api/Projects/{id}/Columns                GET           list      200
+## Card
 
-/api/Columns/{column_id}    GET           single    200
-/api/Columns                POST          create    201
-/api/Columns/{column_id}    PUT/PATCH     edit      200
-/api/Columns/{column_id}    DELETE        remove    404/204
+### Get Card
+- **Method**: GET
+- **Path**: /api/Card/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+{
+  "id": 0,
+  "title": "string",
+  "details": "string",
+  "tags": "string",
+  "dueDate": "2024-01-16T12:33:31.404Z",
+  "creationDate": "2024-01-16T12:33:31.404Z",
+  "completionDate": "2024-01-16T12:33:31.404Z",
+  "approvalDate": "2024-01-16T12:33:31.404Z",
+  "assignedMembers": [
+    {
+      "id": 0
+    }
+  ]
+}
 
+```
+
+### Edit Card
+- **Method**: PUT
+- **Path**: /api/Card/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Body**:
+```
+{
+  "id": 0,
+  "title": "string",
+  "details": "string",
+  "tags": "string",
+  "dueDate": "2024-01-16T12:35:08.628Z",
+  "creationDate": "2024-01-16T12:35:08.628Z",
+  "completionDate": "2024-01-16T12:35:08.628Z",
+  "approvalDate": "2024-01-16T12:35:08.628Z",
+  "assignedMembers": [
+    {
+      "id": 0
+    }
+  ],
+  "columnId": 0
+}
+```
+- **Response Example**:
+```
+200
+```
+
+
+### Delete Card
+- **Method**: DELETE
+- **Path**: /api/Card/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+200
+```
+
+### Create Card
+- **Method**: POST
+- **Path**: /api/Card
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Body**:
+```
+{
+  "title": "string",
+  "details": "string",
+  "tags": "string",
+  "dueDate": "2024-01-16T12:38:52.385Z",
+  "creationDate": "2024-01-16T12:38:52.385Z",
+  "completionDate": "2024-01-16T12:38:52.385Z",
+  "approvalDate": "2024-01-16T12:38:52.385Z",
+  "assignedMembers": [
+    {
+      "id": 0
+    }
+  ],
+  "columnId": 0
+}
+```
+- **Response Example**:
+```
+200
+```
 
 ---
-GET
-
-id
-title
-position
-cards
-    id
-    title
-    details
-    tags
-    dueDate
-    creationDate
-    isComplete
-    assignedMembers
-        userId? (when displaying on card get username from members)
 
 
----
-POST
+## Column
 
-title
-position
+### Create a column
+- **Method**: POST
+- **Path**: /api/Column?project_id={int}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+200 / 404
+```
 
----
-/api/Projects/{id}/Member    GET           list      200
-/api/Member/{member_id}     GET           single    200
-/api/Member                 POST          create    201
-/api/Member/{member_id}     PUT/PATCH     edit      200
-/api/Member/{member_id}     DELETE        remove    404/204
+### Edit Column Title
+- **Method**: PUT
+- **Path**: /api/Column/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Body**:
+```
+{
+  "id": 0,
+  "title": "string",
+  "position": 0
+}
+```
+- **Response Example**:
+```
+200
+```
 
-
----
-GET
-
-userId
-username
-email
-roles
-    name
-
-
----
-POST
-
-userId
-projectId
-roles
-    id
+### Delete Column
+- **Method**: DELETE
+- **Path**: /api/Column/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+200
+```
 
 ---
-/api/Login                  POST          create    200
-/api/Register               POST          create    200
-/api/currentUser            POST          create    200
 
+## Member
+
+### Create a member
+- **Method**: POST
+- **Path**: /api/Member
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Body**:
+```
+{
+  "userId": "string",
+  "projectId": 0
+}
+```
+- **Response Example**:
+```
+200
+```
+
+### Edit Change Member's Role
+- **Method**: PUT
+- **Path**: /api/Member/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Body**:
+```
+{
+  "id": 0,
+  "role": 0
+}
+```
+- **Response Example**:
+```
+200
+```
+
+### Delete a Member
+- **Method**: DELETE
+- **Path**: /api/Member/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+200
+```
 
 ---
-GET (currentUser)
 
-id?
-email
-username
+## Project
+
+### Send Project Update to all Sockets
+- **Method**: POST
+- **Path**: /api/Project/UpdateProject
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+200
+```
+
+### Get Project Data
+- **Method**: GET
+- **Path**: /api/Project/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+{
+  "id": 0,
+  "title": "string",
+  "columns": [
+    {
+      "id": 0,
+      "title": "string",
+      "cards": [
+        {
+          "id": 0,
+          "title": "string",
+          "details": "string",
+          "tags": "string",
+          "dueDate": "2024-01-16T12:54:02.003Z",
+          "creationDate": "2024-01-16T12:54:02.003Z",
+          "completionDate": "2024-01-16T12:54:02.003Z",
+          "approvalDate": "2024-01-16T12:54:02.003Z",
+          "assignedMembers": [
+            {
+              "id": 0
+            }
+          ]
+        }
+      ],
+      "position": 0
+    }
+  ],
+  "members": [
+    {
+      "id": 0,
+      "user": {
+        "id": "string",
+        "email": "string",
+        "username": "string"
+      },
+      "roles": [
+        {
+          "role": {
+            "name": 0
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Rename a Project
+- **Method**: PUT
+- **Path**: /api/Project/{id}/?projectTitle=newTitle
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+200
+```
+
+### Delete a Project
+- **Method**: DELETE
+- **Path**: /api/Project/{id}
+- **Headers**:
+  - `Authorization: Bearer {token}`
+- **Response Example**:
+```
+200
+```

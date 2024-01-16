@@ -13,6 +13,13 @@ using tresure_api.Controllers.Hubs;
 using tresure_api.Data;
 using tresure_api.Data.Interfaces;
 using tresure_api.Repository;
+/*
+dotnet commands:
+
+dotnet ef migrations add YourMigrationName
+dotnet ef database update
+dotnet watch --no-hot-reload
+*/
 
 var builder = WebApplication.CreateBuilder(args);
 

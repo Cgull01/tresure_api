@@ -117,7 +117,7 @@ namespace tresure_api.Controllers
                 return NotFound(ErrorMessages.Messages[404]);
             }
 
-            if (!_userAccessService.IsAdmin(updatedProject))
+            if (!_userAccessService.IsOwner(updatedProject))
             {
                 return Forbid(ErrorMessages.Messages[403]);
             }
@@ -137,7 +137,7 @@ namespace tresure_api.Controllers
             if (project == null)
                 return NotFound(ErrorMessages.Messages[404]);
 
-            if (_userAccessService.IsAdmin(project))
+            if (_userAccessService.IsOwner(project))
             {
                 // if user is owner of the project, delete the project
                 _projectRepository.DeleteProject(project);
